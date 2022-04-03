@@ -2,7 +2,7 @@ import urlJoin from 'url-join'
 import { Base64 } from 'js-base64'
 import { GraphQLClient } from 'graphql-request'
 import { getSdk, SdkFunctionWrapper } from './generated/api-gql'
-import { ApiDriver } from '~/app/drivers/api-driver'
+import { ApiDriver, ApiError } from '~/app/drivers/api-driver'
 import { PostOauthTokenRequest, PostOauthTokenResponse } from '~/types/api-types'
 
 export class ApiGateway {
@@ -13,6 +13,7 @@ export class ApiGateway {
     private gqlClient: GraphQLClient,
     private clientId: string,
     private clientSecret: string,
+    private clientCredentialRefreshToken: string,
   ) {
   }
 
@@ -56,16 +57,41 @@ export class ApiGateway {
     }
   }
 
-  public graphQLAsServer () {
+  public graphQLAsServerCC () {
     const func: SdkFunctionWrapper = async <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>): Promise<T> => {
+      // TODO アクセストークンの更新処理
       return action({ Authorization: `Bearer ${this.clientCredentialAccessToken}` })
     }
 
     return getSdk(this.gqlClient, func)
   }
 
-  public setClientCredentialAccessToken (token: string) {
-    this.clientCredentialAccessToken = token
+  private async refreshClientCredentialAccessToken () {
+    const res = await this.postOauthToken({
+      grantType: 'client_credentials',
+      scope: 'admin',
+      refreshToken: this.clientCredentialRefreshToken,
+    })
+    this.clientCredentialAccessToken = res.accessToken
+  }
+
+  private async requestAsClientCredential(path: string, init?: RequestInit) {
+    if (this.clientCredentialAccessToken === '') {
+      await this.refreshClientCredentialAccessToken()
+    }
+
+    try {
+      return await this.apiDriver.request(path, init)
+    } catch(err) {
+      if (err instanceof ApiError){
+        // 認証エラーの場合は、クライアントクレデンシャル認証のアクセストークンを更新して再挑戦する。
+        if (err.errorCode === 'UnauthorizedError') {
+          await this.refreshClientCredentialAccessToken()
+          return await this.apiDriver.request(path, init)
+        }
+      }
+      throw err
+    }
   }
 
   private basicAuthValue (): string {

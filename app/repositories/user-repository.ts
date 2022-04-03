@@ -5,7 +5,7 @@ export class UserRepository {
   }
 
   public async createUser (userId:string, name: string, password: string) {
-    const client = this.apiGateway.graphQLAsServer()
+    const client = this.apiGateway.graphQLAsServerCC()
     const res = await client.createUser({ userId, name, password })
   }
 }
