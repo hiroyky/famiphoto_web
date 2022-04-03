@@ -1,13 +1,16 @@
 import urlJoin from 'url-join'
-import {PostOauthTokenRequest, PostOauthTokenResponse} from '~/@types/api-types'
+import {PostOauthTokenRequest, PostOauthTokenResponse} from '~/types/api-types'
 import { Base64 } from 'js-base64'
 import { ApiDriver } from '~/app/drivers/api-driver'
+import { GraphQLClient } from 'graphql-request'
+import { getSdk, SdkFunctionWrapper }from './generated/api-gql'
 
 export class ApiGateway {
   private clientCredentialAccessToken = ''
 
   constructor(
     private apiDriver: ApiDriver,
+    private gqlClient: GraphQLClient,
     private clientId: string,
     private clientSecret: string,
     ) {
@@ -51,6 +54,14 @@ export class ApiGateway {
     } catch (err) {
       throw err
     }
+  }
+
+  public graphQLAsServer() {
+    const func: SdkFunctionWrapper =  async <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>): Promise<T> => {
+      return action({'Authorization': `Bearer ${this.clientCredentialAccessToken}`})
+    }
+
+    return getSdk(this.gqlClient, func)
   }
 
   public setClientCredentialAccessToken(token: string) {
