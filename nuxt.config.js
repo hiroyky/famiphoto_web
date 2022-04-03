@@ -20,6 +20,16 @@ export default {
     ],
   },
 
+  publicRuntimeConfig: {
+    baseUrl: process.env.BASE_URL || 'http://localhsot:3000/'
+  },
+  privateRuntimeCOnfig: {
+    apiBaseUrl: process.env.API_BASE_URL  || 'http://localhost:8080/',
+    graphQlApiUrl: process.env.GRAPHQL_API_URL || 'http://localhost:8080/graphql'
+    clientId: process.env.CLIENT_ID || 'famiphoto_web1',
+    clientSecret: process.env.CLIENT_SECRET,
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
