@@ -10,10 +10,14 @@
     "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "lintfix": "npm run lint:js -- --fix",
-    "test": "jest"
+    "test": "jest",
+    "codegen": "graphql-codegen --config codegen.yaml"
   },
   "dependencies": {
     "core-js": "^3.19.3",
+    "graphql": "^16.3.0",
+    "graphql-request": "^4.2.0",
+    "graphql-tag": "^2.12.6",
     "js-base64": "^3.7.2",
     "nuxt": "^2.15.8",
     "url-join": "^5.0.0",
@@ -25,6 +29,10 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript-graphql-request": "^4.4.5",
+    "@graphql-codegen/typescript-operations": "^2.3.5",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^8.0.0",
