@@ -3,16 +3,20 @@
     <v-card-title>ログイン</v-card-title>
     <v-form>
       <v-card-text>
-        <v-text-field label="ユーザID"></v-text-field>
-        <v-text-field label="パスワード" type="password"></v-text-field>
+        <v-text-field label="ユーザID" />
+        <v-text-field label="パスワード" type="password" />
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="primary">ログイン</v-btn>
+        <v-btn color="primary">
+          ログイン
+        </v-btn>
         <v-spacer />
       </v-card-actions>
       <v-card-text class="text-center">
-        <nuxt-link to="./create_user">アカウント新規作成</nuxt-link>
+        <nuxt-link to="./create_user">
+          アカウント新規作成
+        </nuxt-link>
       </v-card-text>
     </v-form>
   </v-card>

@@ -1,6 +1,6 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
-import gql from 'graphql-tag';
+import { GraphQLClient } from 'graphql-request'
+import * as Dom from 'graphql-request/dist/types.dom'
+import gql from 'graphql-tag'
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -73,16 +73,13 @@ export type Mutation = {
   createUser: User;
 };
 
-
 export type MutationCreateGroupArgs = {
   input: CreateGroupInput;
 };
 
-
 export type MutationCreateOauthClientArgs = {
   input: CreateOauthClientInput;
 };
-
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
@@ -154,11 +151,9 @@ export type Query = {
   users: UserPagination;
 };
 
-
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryUsersArgs = {
   id?: InputMaybe<Scalars['ID']>;
@@ -205,9 +200,7 @@ export type CreateUserMutationVariables = Exact<{
   password: Scalars['String'];
 }>;
 
-
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name: string, status: UserStatus } };
-
 
 export const CreateUserDocument = gql`
     mutation createUser($userId: String!, $name: String!, $password: String!) {
@@ -217,18 +210,17 @@ export const CreateUserDocument = gql`
     status
   }
 }
-    `;
+    `
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action()
 
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+export function getSdk (client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
-    }
-  };
+    createUser (variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<CreateUserMutation> {
+      return withWrapper(wrappedRequestHeaders => client.request<CreateUserMutation>(CreateUserDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'createUser', 'mutation')
+    },
+  }
 }
 export type Sdk = ReturnType<typeof getSdk>;
