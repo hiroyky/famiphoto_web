@@ -1,4 +1,4 @@
-import urlJoin from 'url-join'
+//import urlJoin from 'url-join'
 
 export class ApiDriver {
   constructor (private baseUrl: string) {
@@ -6,7 +6,7 @@ export class ApiDriver {
 
   public async request (path: string, init?: RequestInit) {
     try {
-      const res = await fetch(urlJoin(this.baseUrl, path), init)
+      const res = await fetch(this.baseUrl + path, init)
       if (!res.ok) {
         const body = await res.json()
         throw new ApiError(res, body.error_code, body.error_message)

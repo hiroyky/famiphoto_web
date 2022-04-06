@@ -62,7 +62,7 @@ export class ApiGateway {
       // TODO アクセストークンの更新処理
       return action({ Authorization: `Bearer ${this.clientCredentialAccessToken}` })
     }
-
+    console.log('gql: ', this.clientId, this.clientSecret, this.clientCredentialRefreshToken)
     return getSdk(this.gqlClient, func)
   }
 

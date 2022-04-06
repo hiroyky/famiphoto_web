@@ -20,6 +20,14 @@ export default {
     ],
   },
 
+  publicRuntimeConfig: {
+  },
+  privateRuntimeConfig: {
+    CLIENT_ID: process.env.CLIENT_ID,
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
+    CLIENT_CREDENTIAL_REFRESH_TOKEN: process.env.CLIENT_CREDENTIAL_REFRESH_TOKEN,
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -41,7 +49,6 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
   ],
 
@@ -53,6 +60,10 @@ export default {
       },
     },
   },
+
+  serverMiddleware: [
+    '~/server',
+  ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

@@ -11,5 +11,9 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'IndexPage',
+  mounted () {
+    console.log('mounted')
+    fetch('/api/status.html', { method: 'GET' }).then(res => res.text()).then(txt => console.log(txt)).catch(err => console.error(err))
+  },
 })
 </script>

@@ -5,7 +5,8 @@
       <v-window-item>
         <v-form>
           <v-card-text>
-            <v-text-field label="希望のユーザID" />
+            <v-text-field v-model="userId" label="希望のユーザID" />
+            <v-text-field v-model="name" label="名前" />
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -19,7 +20,7 @@
       <v-window-item>
         <v-form>
           <v-card-text>
-            <v-text-field label="パスワード" type="password" />
+            <v-text-field label="パスワード" v-model="password" type="password" />
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -39,15 +40,20 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { newUseCreateionUseCase } from '~/app/di/registry'
 
 export default Vue.extend({
-  name: 'LoginPage',
+  name: 'CreateUserPage',
   layout: 'center',
 
   data () {
     return {
       step: 0,
       loading: false,
+      userId: '',
+      name: '',  
+      password:'',    
+      usecase: newUseCreateionUseCase()
     }
   },
   methods: {
@@ -58,7 +64,7 @@ export default Vue.extend({
       this.step = 0
     },
     onCreateUserSubmit () {
-
+      this.usecase.createUser(this.userId, this.name, this.password)
     },
   },
 })
