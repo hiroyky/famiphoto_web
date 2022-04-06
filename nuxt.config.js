@@ -21,9 +21,11 @@ export default {
   },
 
   publicRuntimeConfig: {
-  },
-  privateRuntimeConfig: {
     CLIENT_ID: process.env.CLIENT_ID,
+    LOGIN_PAGE_URL: process.env.LOGIN_PAGE_URL,
+    LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
+  },
+  privateRuntimeConfig: {    
     CLIENT_SECRET: process.env.CLIENT_SECRET,
     CLIENT_CREDENTIAL_REFRESH_TOKEN: process.env.CLIENT_CREDENTIAL_REFRESH_TOKEN,
   },

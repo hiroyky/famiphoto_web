@@ -4,12 +4,15 @@ import { GraphQLClient } from 'graphql-request'
 import { AuthRepository } from '~/app/repositories/auth-repository'
 import { UserRepository } from '~/app/repositories/user-repository'
 import { UserCreationUseCase } from '../usecases/user-creation-usecase'
+import { AuthClientUsecase } from '../usecases/auth-client-usecase'
+import { WebStorage } from '../drivers/web-storage'
 
 let apiDriver: ApiDriver | null = null
 let apiGateway: ApiGateway | null = null
 let authRepository: AuthRepository | null = null
 let userRepository: UserRepository | null = null
 let userCreateionUseCase: UserCreationUseCase | null = null
+let auhtClientUseCase: AuthClientUsecase | null = null
 
 function newApiDriver() {
   if (apiDriver != null) {
@@ -24,22 +27,15 @@ function newApiGateway() {
     return apiGateway
   }
 
-  const clientId = process.env.CLIENT_ID || ''
-  const clientSecret = process.env.CLIENT_SECRET|| ''
-  const ccRefreshToken = process.env.CLIENT_CREDENTIAL_REFRESH_TOKEN|| ''
-  console.log(clientId, clientSecret, ccRefreshToken)
-  if (!clientId || !clientSecret || !ccRefreshToken) {
-  //  throw new Error('client id, client or client redential refresh token secret is null')
-  }
-
   apiGateway = new ApiGateway(
     newApiDriver(),
     new GraphQLClient('/api/graphql'),
-    clientId,
-    clientSecret,
-    ccRefreshToken
   )
   return apiGateway
+}
+
+function newWebStorage() {
+  return new WebStorage()
 }
 
 function newAuthRepository() {
@@ -47,7 +43,7 @@ function newAuthRepository() {
     return authRepository
   }
 
-  authRepository = new AuthRepository(newApiGateway())
+  authRepository = new AuthRepository(newApiGateway(), newWebStorage())
   return authRepository
 }
 
@@ -66,4 +62,12 @@ export function newUseCreateionUseCase() {
   }
   userCreateionUseCase = new UserCreationUseCase(newUserRepository())
   return userCreateionUseCase
+}
+
+export function newAuthUseCase() {
+  if (auhtClientUseCase != null) {
+    return auhtClientUseCase
+  }
+  auhtClientUseCase = new AuthClientUsecase(newAuthRepository())
+  return auhtClientUseCase
 }

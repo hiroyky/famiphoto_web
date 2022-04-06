@@ -1,17 +1,37 @@
 import express from 'express'
+import { validationResult, body } from 'express-validator'
+import { newOauthClientUsecase } from './di/registry'
 
 const app = express()
 
-app.get('/graphql', (req, res) => {
-    console.log('hoge')
-    res.json({"ok": "ok"})
+app.post('/oauth', (req, res) => {
+
 })
 
-app.post('/graphql-cc', (req, res) => {
-    console.log('hoge')
+app.post(
+    '/auth/redirect', 
+    body('state').isString(),
+    body('code').isString(),
+    async (req: express.Request, res: express.Response) => {
+
+    const errors= validationResult(req)
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() })
+    }
+
+    const code = req.query.code as string
+
+    const usecase = newOauthClientUsecase()
+    const { 
+        accessToken, 
+        refreshToken, 
+        expireIn,
+     } = await usecase.authorizationCode(code)
+
+    res.json(req.query)
 })
 
 export default {
-    path: '/api-cc',
+    path: '/api',
     handler: app,
 }

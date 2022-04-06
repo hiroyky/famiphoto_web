@@ -1,5 +1,3 @@
-//import urlJoin from 'url-join'
-
 export class ApiDriver {
   constructor (private baseUrl: string) {
   }
