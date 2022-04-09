@@ -25,9 +25,10 @@ export default {
     LOGIN_PAGE_URL: process.env.LOGIN_PAGE_URL,
     LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
   },
-  privateRuntimeConfig: {    
+  privateRuntimeConfig: {
     CLIENT_SECRET: process.env.CLIENT_SECRET,
     CLIENT_CREDENTIAL_REFRESH_TOKEN: process.env.CLIENT_CREDENTIAL_REFRESH_TOKEN,
+    SESSOIN_SECRET: process.env.SESSION_SECRET,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -51,17 +52,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/proxy',
   ],
-
-  proxy: {
-    '/api': {
-      target: `${process.env.API_BASE_URL}`,
-      pathRewrite: {
-        '^/api': '',
-      },
-    },
-  },
 
   serverMiddleware: [
     '~/server',
