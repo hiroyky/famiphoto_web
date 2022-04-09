@@ -52,6 +52,9 @@ app.use('/api',
   createProxyMiddleware({
     target: process.env.API_BASE_URL,
     changeOrigin: true,
+    pathRewrite: {
+      '^/api': '/',
+    },
     onProxyReq: (proxyReq, req, res) => {
       if (req.session && req.session.access_token) {
         proxyReq.setHeader('Authorization', `Bearer ${req.session.access_token}`)
