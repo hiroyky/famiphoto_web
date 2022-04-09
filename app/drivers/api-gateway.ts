@@ -14,18 +14,18 @@ export class ApiGateway {
   public graphQL () {
     const func: SdkFunctionWrapper = async <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>): Promise<T> => {
       // TODO アクセストークンの更新処理
-      return action({ Authorization: `Bearer <User AccessToken>` })
+      return action({ Authorization: 'Bearer <User AccessToken>' })
     }
     return getSdk(this.gqlClient, func)
   }
 
-  public async authoriationCode(code:string, state: string): Promise<AuthorizationCodeResponse> {
+  public async authoriationCode (code:string, state: string): Promise<AuthorizationCodeResponse> {
     const res = await this.apiDriver.request('/auth/redirect', {
       method: 'POST',
-      headers: { 
+      headers: {
         'Content-Type': 'applicaiton/json',
-       },
-      body: JSON.stringify({ code, state })
+      },
+      body: JSON.stringify({ code, state }),
     })
     return await res.json()
   }

@@ -20,7 +20,7 @@
       <v-window-item>
         <v-form>
           <v-card-text>
-            <v-text-field label="パスワード" v-model="password" type="password" />
+            <v-text-field v-model="password" label="パスワード" type="password" />
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -51,9 +51,9 @@ export default Vue.extend({
       step: 0,
       loading: false,
       userId: '',
-      name: '',  
-      password:'',    
-      usecase: newUseCreateionUseCase()
+      name: '',
+      password: '',
+      usecase: newUseCreateionUseCase(),
     }
   },
   methods: {

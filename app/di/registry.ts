@@ -1,11 +1,11 @@
-import { ApiDriver } from '~/app/drivers/api-driver'
-import { ApiGateway } from '~/app/drivers/api-gateway'
 import { GraphQLClient } from 'graphql-request'
-import { AuthRepository } from '~/app/repositories/auth-repository'
-import { UserRepository } from '~/app/repositories/user-repository'
 import { UserCreationUseCase } from '../usecases/user-creation-usecase'
 import { AuthClientUsecase } from '../usecases/auth-client-usecase'
 import { WebStorage } from '../drivers/web-storage'
+import { ApiDriver } from '~/app/drivers/api-driver'
+import { ApiGateway } from '~/app/drivers/api-gateway'
+import { AuthRepository } from '~/app/repositories/auth-repository'
+import { UserRepository } from '~/app/repositories/user-repository'
 
 let apiDriver: ApiDriver | null = null
 let apiGateway: ApiGateway | null = null
@@ -14,15 +14,15 @@ let userRepository: UserRepository | null = null
 let userCreateionUseCase: UserCreationUseCase | null = null
 let auhtClientUseCase: AuthClientUsecase | null = null
 
-function newApiDriver() {
+function newApiDriver () {
   if (apiDriver != null) {
     return apiDriver
   }
-  apiDriver = new ApiDriver(`/api`)
+  apiDriver = new ApiDriver('/api')
   return apiDriver
 }
 
-function newApiGateway() {
+function newApiGateway () {
   if (apiGateway != null) {
     return apiGateway
   }
@@ -34,11 +34,11 @@ function newApiGateway() {
   return apiGateway
 }
 
-function newWebStorage() {
+function newWebStorage () {
   return new WebStorage()
 }
 
-function newAuthRepository() {
+function newAuthRepository () {
   if (authRepository != null) {
     return authRepository
   }
@@ -47,7 +47,7 @@ function newAuthRepository() {
   return authRepository
 }
 
-function newUserRepository() {
+function newUserRepository () {
   if (userRepository != null) {
     return userRepository
   }
@@ -56,7 +56,7 @@ function newUserRepository() {
   return userRepository
 }
 
-export function newUseCreateionUseCase() {
+export function newUseCreateionUseCase () {
   if (userCreateionUseCase != null) {
     return userCreateionUseCase
   }
@@ -64,7 +64,7 @@ export function newUseCreateionUseCase() {
   return userCreateionUseCase
 }
 
-export function newAuthUseCase() {
+export function newAuthUseCase () {
   if (auhtClientUseCase != null) {
     return auhtClientUseCase
   }

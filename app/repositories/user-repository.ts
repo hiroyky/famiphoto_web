@@ -8,5 +8,4 @@ export class UserRepository {
     const client = this.apiGateway.graphQL()
     const res = await client.createUser({ userId, name, password })
   }
-
 }

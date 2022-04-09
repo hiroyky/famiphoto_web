@@ -14,29 +14,29 @@ export default Vue.extend({
   name: 'LoginRedirectingPage',
   layout: 'center',
 
-    data() {
-        return {
-            state:"",
-            code: "",
-        }
-    },
-
-  async asyncData({ redirect, query }) {
-    const {state, code} = query
+  async asyncData ({ redirect, query }) {
+    const { state, code } = query
     if (!state || !code) {
-        redirect('/login')
-        return {}
+      redirect('/login')
+      return {}
     }
-    return {code, state};
+    return { code, state }
   },
-  mounted() {
-      this.login(this.code, this.state)
+
+  data () {
+    return {
+      state: '',
+      code: '',
+    }
+  },
+  mounted () {
+    this.login(this.code, this.state)
   },
   methods: {
-      async login(code: string, state: string) {
-          await authClientUsecase.authorizationCode(code, state)
-          await this.$router.push('/')
-      }      
-  }
+    async login (code: string, state: string) {
+      await authClientUsecase.authorizationCode(code, state)
+      await this.$router.push('/')
+    },
+  },
 })
 </script>

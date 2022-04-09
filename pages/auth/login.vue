@@ -26,18 +26,18 @@ export default Vue.extend({
   layout: 'center',
 
   computed: {
-    loginPage() { 
+    loginPage () {
       const u = new URL(this.$config.LOGIN_PAGE_URL)
       u.search = new URLSearchParams({
-        "response_type": "code",
-        "redirect_uri": this.$config.LOGIN_REDIRECT_URL,
-        "client_id": this.$config.CLIENT_ID,
-        "state": "hogefuga",
+        response_type: 'code',
+        redirect_uri: this.$config.LOGIN_REDIRECT_URL,
+        client_id: this.$config.CLIENT_ID,
+        state: 'hogefuga',
       }).toString()
       return u.href
-     }
+    },
   },
   methods: {
-  }
+  },
 })
 </script>
