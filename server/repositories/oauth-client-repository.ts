@@ -19,7 +19,7 @@ export class OauthClientRepository {
     }
   }
 
-  public async refreshToken(refreshToken: string) {
+  public async refreshToken (refreshToken: string) {
     const res = await this.apiGateway.postOauthToken({
       grantType: 'refresh_token',
       refreshToken,

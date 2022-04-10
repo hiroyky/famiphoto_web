@@ -25,18 +25,17 @@ app.use('/oauth/authorize', createProxyMiddleware({
   changeOrigin: true,
 }))
 
-
 app.post(
   '/api/auth/redirect',
   express.json(),
-  express.urlencoded({extended: true}),
+  express.urlencoded({ extended: true }),
   checkSchema({
     state: {
       in: ['body'],
     },
     code: {
-      in: ['body']
-    }
+      in: ['body'],
+    },
   }),
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const errors = validationResult(req)
@@ -55,6 +54,7 @@ app.post(
       refreshToken,
       expireAt,
     } = await usecase.authorizationCode(code, new Date())
+
     req.session.access_token = accessToken
     req.session.access_token_expires = expireAt
     req.session.refresh_token = refreshToken
@@ -64,6 +64,26 @@ app.post(
 )
 
 app.use('/api',
+  async (req, res, next) => {
+    if (!req.session || !req.session.access_token || !req.session.access_token_expires || !req.session.refresh_token) {
+      return next()
+    }
+    const now = new Date()
+    const usecase = newOauthClientUsecase()
+    if (usecase.isExpired(req.session.access_token_expires, now)) {
+      return next()
+    }
+
+    const {
+      accessToken,
+      expireAt,
+    } = await usecase.refreshToken(req.session.refresh_token, now)
+
+    req.session.access_token = accessToken
+    req.session.access_token_expires = expireAt
+    req.session.save()
+    next()
+  },
   createProxyMiddleware({
     target: process.env.API_BASE_URL,
     changeOrigin: true,
@@ -75,7 +95,7 @@ app.use('/api',
         proxyReq.setHeader('Authorization', `Bearer ${req.session.access_token}`)
       }
     },
-  })
+  }),
 )
 
 export default {

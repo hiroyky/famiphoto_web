@@ -18,7 +18,15 @@ export class OauthClientUsecase {
     }
   }
 
-  public refreshToken(refreshToken: string) {
-    return this.oauthClientRepo.refreshToken(refreshToken)
+  public isExpired (expireAt: Number, now:Date): boolean {
+    return expireAt < now.getTime() / 1000
+  }
+
+  public async refreshToken (refreshToken: string, now: Date) {
+    const res = await this.oauthClientRepo.refreshToken(refreshToken)
+    return {
+      accessToken: res.accessToken,
+      expireAt: res.expireIn + (now.getTime() / 1000),
+    }
   }
 }
