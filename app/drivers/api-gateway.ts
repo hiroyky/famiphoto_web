@@ -23,7 +23,7 @@ export class ApiGateway {
     const res = await this.apiDriver.request('/auth/redirect', {
       method: 'POST',
       headers: {
-        'Content-Type': 'applicaiton/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ code, state }),
     })

@@ -11,9 +11,4 @@ export class AuthRepository {
   authorizationCode (code: string, state: string) {
     return this.apiGateway.authoriationCode(code, state)
   }
-
-  saveAuthTokens (accessToken: string, refreshToken: string) {
-    this.webStorage.setAccessToken(accessToken)
-    this.webStorage.setRefreshToken(refreshToken)
-  }
 }

@@ -1,11 +1,12 @@
 import http from 'http'
 import express from 'express'
 import session from 'express-session'
-import { validationResult, body } from 'express-validator'
+import { validationResult, body, checkSchema } from 'express-validator'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import { newOauthClientUsecase } from './di/registry'
 
 const app = express()
+
 app.use(session({
   secret: process.env.SESSION_SECRET!,
   name: 'famiphoto_session',
@@ -19,11 +20,25 @@ app.use(session({
   },
 }))
 
+app.use('/oauth/authorize', createProxyMiddleware({
+  target: process.env.API_BASE_URL,
+  changeOrigin: true,
+}))
+
+
 app.post(
   '/api/auth/redirect',
-  body('state').isString(),
-  body('code').isString(),
-  (req, res, next) => {
+  express.json(),
+  express.urlencoded({extended: true}),
+  checkSchema({
+    state: {
+      in: ['body'],
+    },
+    code: {
+      in: ['body']
+    }
+  }),
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() })
@@ -31,7 +46,7 @@ app.post(
     next()
   },
   async (req: express.Request, res: express.Response) => {
-    const code = req.query.code as string
+    const code = req.body.code as string
 
     const usecase = newOauthClientUsecase()
 
@@ -43,7 +58,7 @@ app.post(
     req.session.access_token = accessToken
     req.session.access_token_expires = expireIn
     req.session.refresh_token = refreshToken
-
+    req.session.save()
     res.json({ login: 'ok' })
   },
 )
