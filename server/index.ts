@@ -53,10 +53,10 @@ app.post(
     const {
       accessToken,
       refreshToken,
-      expireIn,
-    } = await usecase.authorizationCode(code)
+      expireAt,
+    } = await usecase.authorizationCode(code, new Date())
     req.session.access_token = accessToken
-    req.session.access_token_expires = expireIn
+    req.session.access_token_expires = expireAt
     req.session.refresh_token = refreshToken
     req.session.save()
     res.json({ login: 'ok' })

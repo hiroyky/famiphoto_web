@@ -18,4 +18,15 @@ export class OauthClientRepository {
       refreshToken: res.refreshToken!,
     }
   }
+
+  public async refreshToken(refreshToken: string) {
+    const res = await this.apiGateway.postOauthToken({
+      grantType: 'refresh_token',
+      refreshToken,
+    })
+    return {
+      accessToken: res.accessToken,
+      expireIn: res.expireIn,
+    }
+  }
 }
