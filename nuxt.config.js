@@ -19,6 +19,19 @@ export default {
     ],
   },
 
+  publicRuntimeConfig: {
+    BASE_URL: process.env.BASE_URL,
+    CLIENT_ID: process.env.CLIENT_ID,
+    LOGIN_PAGE_URL: process.env.LOGIN_PAGE_URL,
+    LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
+  },
+  privateRuntimeConfig: {
+    API_BASE_URL: process.env.API_BASE_URL,
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
+    CLIENT_CREDENTIAL_REFRESH_TOKEN: process.env.CLIENT_CREDENTIAL_REFRESH_TOKEN,
+    SESSION_SECRET: process.env.SESSION_SECRET,
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -50,6 +63,10 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
+
+  serverMiddleware: [
+    '~/server',
+  ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
