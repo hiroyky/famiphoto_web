@@ -1,7 +1,9 @@
 import express from 'express'
 import { checkSchema } from 'express-validator'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 import { newOauthClientUsecase } from '../../di/registry'
 import expressValidation from './middlewares/express-validation'
+import { updateAccessToken } from './middlewares/session-middleware'
 
 const router = express.Router()
 
@@ -30,5 +32,20 @@ router.get(
   },
 )
 
+router.use('/api/*',
+  updateAccessToken,
+  createProxyMiddleware({
+    target: process.env.API_BASE_URL,
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api': '',
+    },
+    onProxyReq: (proxyReq, req, res) => {
+      if (req.session && req.session.access_token) {
+        proxyReq.setHeader('Authorization', `Bearer ${req.session.access_token}`)
+      }
+    },
+  }),
+)
+
 export default router
-newOauthClientUsecase
