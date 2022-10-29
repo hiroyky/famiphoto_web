@@ -2,6 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  ssr: false,
   head: {
     titleTemplate: '%s - famiphoto_web',
     title: 'famiphoto_web',
@@ -49,6 +50,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/composition-api/module',
     '@pinia/nuxt',
   ],
 
@@ -58,12 +60,17 @@ export default {
     '@nuxtjs/axios',
   ],
 
+  router: {
+    middleware: [
+      'me',
+    ],
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
-
   serverMiddleware: [
     '~/server',
   ],

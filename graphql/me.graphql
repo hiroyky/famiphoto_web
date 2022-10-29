@@ -1,6 +1,6 @@
 query me {
   me {
-    id,
+    id
     name
   }
 }
