@@ -26,6 +26,7 @@ export default {
     LOGIN_PAGE_URL: process.env.LOGIN_PAGE_URL,
     LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
     APP_NAME: 'FAMIPHOTO',
+    IS_DEBUG: process.env.IS_DEBUG,
   },
   privateRuntimeConfig: {
     API_BASE_URL: process.env.API_BASE_URL,

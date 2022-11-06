@@ -48,4 +48,16 @@ router.use('/api/*',
   }),
 )
 
+if (process.env.IS_DEBUG) {
+  router.use('/graphql', updateAccessToken, createProxyMiddleware({
+    target: process.env.API_BASE_URL,
+    changeOrigin: true,
+    onProxyReq: (proxyReq, req, res) => {
+      if (req.session && req.session.access_token) {
+        proxyReq.setHeader('Authorization', `Bearer ${req.session.access_token}`)
+      }
+    },
+  }))
+}
+
 export default router
