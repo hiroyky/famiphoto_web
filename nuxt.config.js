@@ -4,8 +4,8 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
   head: {
-    titleTemplate: '%s - famiphoto_web',
-    title: 'famiphoto_web',
+    titleTemplate: '%s - FAMIPHOTO',
+    title: 'FAMIPHOTO',
     htmlAttrs: {
       lang: 'en',
     },
@@ -25,6 +25,7 @@ export default {
     CLIENT_ID: process.env.CLIENT_ID,
     LOGIN_PAGE_URL: process.env.LOGIN_PAGE_URL,
     LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
+    APP_NAME: 'FAMIPHOTO',
   },
   privateRuntimeConfig: {
     API_BASE_URL: process.env.API_BASE_URL,

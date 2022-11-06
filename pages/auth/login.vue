@@ -1,5 +1,11 @@
 <template>
-  <login-link-card />
+  <v-container>
+    <v-row>
+      <v-col>
+        <login-link-card />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
