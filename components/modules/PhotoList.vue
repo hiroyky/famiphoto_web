@@ -1,36 +1,24 @@
 <template>
   <ul class="photo_list">
-    <li class="photo_list__item">
-      <img src="/sample1.jpg" class="photo_list__item__img">
-    </li>
-    <li class="photo_list__item">
-      <img src="/sample1.jpg" class="photo_list__item__img">
-    </li>
-    <li class="photo_list__item">
-      <img src="/sample2.jpg" class="photo_list__item__img">
-    </li>
-    <li class="photo_list__item">
-      <img src="/sample1.jpg" class="photo_list__item__img">
-    </li>
-    <li class="photo_list__item">
-      <img src="/sample2.jpg" class="photo_list__item__img">
-    </li>
-    <li class="photo_list__item">
-      <img src="/sample1.jpg" class="photo_list__item__img">
-    </li>
-    <li class="photo_list__item">
-      <img src="/sample1.jpg" class="photo_list__item__img">
-    </li>
-    <li class="photo_list__item">
-      <img src="/sample1.jpg" class="photo_list__item__img">
+    <li v-for="item in value" :key="item.id" class="photo_list__item">
+      <img :src="item.thumbnailUrl" :alt="item.name" class="photo_list__item__img">
     </li>
   </ul>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent, PropType } from 'vue'
+import { PhotoList } from '~/types/api-gql-alias'
+
+export default defineComponent({
   name: 'PhotoList',
-}
+  props: {
+    value: {
+      type: Array as PropType<PhotoList>,
+      default: [] as PhotoList,
+    },
+  },
+})
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 #codegen.yaml
 
-schema: 'http://localhost:8080/graphql'
+schema: 'http://localhost:7002/graphql'
 documents: './graphql/*.graphql'
 generates:
   types/api-gql.ts:

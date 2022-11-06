@@ -6,8 +6,7 @@
       :clipped="clipped"
       fixed
       app
-    >
-    </v-navigation-drawer>
+    />
 
     <v-app-bar
       :clipped-left="clipped"
@@ -17,9 +16,9 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
-      <v-main>
-        <Nuxt />
-      </v-main>
+    <v-main>
+      <Nuxt />
+    </v-main>
     <v-footer
       :absolute="!fixed"
       app

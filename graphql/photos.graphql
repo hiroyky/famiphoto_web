@@ -1,0 +1,26 @@
+query photos(
+  $id:ID,
+  $ownerId:ID,
+  $groupId:ID,
+  $limit: Int!,
+  $offset:Int
+) {
+  photos (
+    id:$id,
+    ownerId:$ownerId,
+    groupId:$groupId,
+    limit:$limit,
+    offset:$offset
+  ){
+    nodes {
+      id
+      name
+      dateTimeOriginal
+      thumbnailUrl
+      previewUrl
+      ownerId
+      groupId
+    }
+  }
+}
+

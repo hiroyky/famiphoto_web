@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="center" align="center">
       <v-col cols="12">
-        <photo-list />
+        <photo-list :value="photoStore.photos" />
       </v-col>
     </v-row>
   </v-container>
@@ -13,6 +13,7 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 import { useMeStore } from '~/store/me-store'
 import PhotoList from '~/components/modules/PhotoList'
+import { usePhotoStore } from '~/store/photo-store'
 
 export default defineComponent({
   components: { PhotoList },
@@ -20,12 +21,15 @@ export default defineComponent({
   middleware: ['authenticated'],
   setup (ctx) {
     const meStore = useMeStore(ctx.$pinia)
+    const photoStore = usePhotoStore(ctx.$pinia)
     return {
       meStore,
+      photoStore,
     }
   },
 
-  mounted () {
+  async mounted () {
+    await this.photoStore.getPhotos()
     console.log('me', this.meStore.me)
   },
 })

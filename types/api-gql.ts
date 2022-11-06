@@ -272,11 +272,42 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, name: string } | null };
 
+export type PhotosQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  ownerId?: InputMaybe<Scalars['ID']>;
+  groupId?: InputMaybe<Scalars['ID']>;
+  limit: Scalars['Int'];
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type PhotosQuery = { __typename?: 'Query', photos: { __typename?: 'PhotoPagination', nodes: Array<{ __typename?: 'Photo', id: string, name: string, dateTimeOriginal: any, thumbnailUrl: string, previewUrl: string, ownerId: string, groupId: string }> } };
+
 export const MeDocument = gql`
     query me {
   me {
     id
     name
+  }
+}
+    `
+export const PhotosDocument = gql`
+    query photos($id: ID, $ownerId: ID, $groupId: ID, $limit: Int!, $offset: Int) {
+  photos(
+    id: $id
+    ownerId: $ownerId
+    groupId: $groupId
+    limit: $limit
+    offset: $offset
+  ) {
+    nodes {
+      id
+      name
+      dateTimeOriginal
+      thumbnailUrl
+      previewUrl
+      ownerId
+      groupId
+    }
   }
 }
     `
@@ -289,6 +320,9 @@ export function getSdk (client: GraphQLClient, withWrapper: SdkFunctionWrapper =
   return {
     me (variables?: MeQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<MeQuery> {
       return withWrapper(wrappedRequestHeaders => client.request<MeQuery>(MeDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'me', 'query')
+    },
+    photos (variables: PhotosQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<PhotosQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<PhotosQuery>(PhotosDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'photos', 'query')
     },
   }
 }
