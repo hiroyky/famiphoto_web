@@ -33,25 +33,25 @@ export default {
 }
 </script>
 
-<style type="scss">
+<style lang="scss" scoped>
 .photo_list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   gap:10px;
 
+  &__item {
+     flex: 1 1 auto;
+     height: 300px;
+     position: relative;
+
+    &__img {
+      width: 100%;
+      height: 100%;
+      vertical-align: middle;
+      object-fit: contain;
+    }
+   }
 }
 
-.photo_list__item {
-  flex: 1 1 auto;
-  height: 300px;
-  position: relative;
-}
-
-.photo_list__item__img {
-  width: 100%;
-  height: 100%;
-  vertical-align: middle;
-  object-fit: contain;
-}
 </style>
