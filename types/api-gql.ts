@@ -280,7 +280,7 @@ export type PhotosQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']>;
 }>;
 
-export type PhotosQuery = { __typename?: 'Query', photos: { __typename?: 'PhotoPagination', nodes: Array<{ __typename?: 'Photo', id: string, name: string, dateTimeOriginal: any, thumbnailUrl: string, previewUrl: string, ownerId: string, groupId: string }> } };
+export type PhotosQuery = { __typename?: 'Query', photos: { __typename?: 'PhotoPagination', pageInfo: { __typename?: 'PaginationInfo', page: number, paginationLength: number, hasNextPage: boolean, hasPreviousPage: boolean, count: number, totalCount: number }, nodes: Array<{ __typename?: 'Photo', id: string, name: string, dateTimeOriginal: any, thumbnailUrl: string, previewUrl: string, ownerId: string, groupId: string }> } };
 
 export const MeDocument = gql`
     query me {
@@ -299,6 +299,14 @@ export const PhotosDocument = gql`
     limit: $limit
     offset: $offset
   ) {
+    pageInfo {
+      page
+      paginationLength
+      hasNextPage
+      hasPreviousPage
+      count
+      totalCount
+    }
     nodes {
       id
       name

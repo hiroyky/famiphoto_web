@@ -12,6 +12,14 @@ query photos(
     limit:$limit,
     offset:$offset
   ){
+    pageInfo {
+      page
+      paginationLength
+      hasNextPage
+      hasPreviousPage
+      count
+      totalCount
+    }
     nodes {
       id
       name
