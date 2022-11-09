@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
 import { useGqlStore } from '~/store/gql-store'
 import { PhotoList } from '~/types/api-gql-alias'
-import { PaginationInfo } from '~/types/api-gql'
+import { PaginationInfo, PhotoQuery } from '~/types/api-gql'
 
 interface State {
+  photo: PhotoQuery['photo'] | null
   photos: PhotoList
   paginationInfo: PaginationInfo
 }
@@ -15,6 +16,7 @@ interface PhotosGetQuery {
 
 export const usePhotoStore = defineStore('photo', {
   state: (): State => ({
+    photo: null,
     photos: [],
     paginationInfo: {
       page: 0,
@@ -26,6 +28,15 @@ export const usePhotoStore = defineStore('photo', {
     },
   }),
   actions: {
+    async getPhoto (photoId: string) {
+      const { client } = useGqlStore()
+      try {
+        const res = await client.photo({ id: photoId })
+        this.photo = res.photo
+      } catch (err) {
+        console.error(err)
+      }
+    },
     async getPhotos (q?: PhotosGetQuery) {
       const { client } = useGqlStore()
       try {

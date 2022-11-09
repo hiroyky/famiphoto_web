@@ -23,8 +23,8 @@ import { usePhotoStore } from '~/store/photo-store'
 import Number = types.Number
 
 export default defineComponent({
+  name: 'IndexPage',
   components: { PhotoList },
-  // name: 'IndexPage',
   middleware: ['authenticated'],
   setup () {
     const meStore = useMeStore()
@@ -56,7 +56,7 @@ export default defineComponent({
       set (page: number) {
         const offset = (page - 1) * this.limit
         this.$router.push({ path: '/', query: { limit: String(this.limit), offset: String(offset) } })
-        this.photoStore.getPhotos({limit: this.limit, offset})
+        this.photoStore.getPhotos({ limit: this.limit, offset })
       },
     },
   },

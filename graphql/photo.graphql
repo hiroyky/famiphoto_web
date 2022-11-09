@@ -1,0 +1,17 @@
+query photo ($id:ID!) {
+  photo(id: $id) {
+    id
+    owner {
+      id
+      name
+    }
+    name
+    previewUrl
+    dateTimeOriginal
+    files {
+      fileType
+      downloadUrl
+      fileHash
+    }
+  }
+}
