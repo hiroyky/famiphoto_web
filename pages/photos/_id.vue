@@ -1,9 +1,40 @@
 <template>
   <v-container fluid>
     <v-row justify="center" align="center">
-      <v-col cols="12">
+      <v-col>
+        <v-container fluid>
+          <v-row>
+            <v-col>
+              <v-card>
+                <v-card-actions>
+                  <v-menu offset-y>
+                    <template #activator="{on, attrs}">
+                      <v-btn color="primary" v-bind="attrs" v-on="on">ダウンロード</v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item v-for="item in downloadFiles" :key="item.id" :href="getDownloadUrl(item)">
+                        <v-list-item-content>
+                          <v-list-item-title>元画像 ({{ item.fileType }})</v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item v-if="previewUrl" :href="previewUrl">
+                        <v-list-item-title>プレビュー用 (jpeg)</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
+      <v-col cols="10">
         <v-card>
-          <v-img :src="previewUrl" />
+          <v-img :src="previewUrl" max-height="720" contain />
         </v-card>
       </v-col>
     </v-row>
@@ -24,9 +55,21 @@ export default defineComponent({
     }
   },
   computed: {
+    downloadFiles() {
+      const photo = this.photoStore.photo
+      if (photo === null || photo === undefined) {
+        return []
+      }
+      return photo.files
+    },
     previewUrl () {
       return this.photoStore.photo !== null ? this.photoStore.photo?.previewUrl : ''
     },
+  },
+  methods: {
+    getDownloadUrl(photoFile: { id: string }) {
+      return `/api/download/files/${photoFile.id}`
+    }
   },
   created () {
     const id = this.$route.params.id

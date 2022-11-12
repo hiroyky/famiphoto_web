@@ -9,8 +9,8 @@ query photo ($id:ID!) {
     previewUrl
     dateTimeOriginal
     files {
+      id
       fileType
-      downloadUrl
       fileHash
     }
   }

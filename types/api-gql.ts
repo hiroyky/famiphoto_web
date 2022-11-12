@@ -1,6 +1,6 @@
-import { GraphQLClient } from 'graphql-request'
-import * as Dom from 'graphql-request/dist/types.dom'
-import gql from 'graphql-tag'
+import { GraphQLClient } from 'graphql-request';
+import * as Dom from 'graphql-request/dist/types.dom';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -64,6 +64,7 @@ export type Group = Node & {
   userPagination: UserPagination;
 };
 
+
 export type GroupUserPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -88,13 +89,16 @@ export type Mutation = {
   createUser: User;
 };
 
+
 export type MutationCreateGroupArgs = {
   input: CreateGroupInput;
 };
 
+
 export type MutationCreateOauthClientArgs = {
   input: CreateOauthClientInput;
 };
+
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
@@ -175,7 +179,6 @@ export type PhotoExif = Node & {
 
 export type PhotoFile = Node & {
   __typename?: 'PhotoFile';
-  downloadUrl: Scalars['String'];
   fileHash: Scalars['String'];
   fileType: Scalars['String'];
   group: Group;
@@ -205,17 +208,21 @@ export type Query = {
   users: UserPagination;
 };
 
+
 export type QueryPhotoArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryPhotoFileArgs = {
   id: Scalars['ID'];
 };
 
+
 export type QueryPhotoFilesArgs = {
   photoId: Scalars['ID'];
 };
+
 
 export type QueryPhotosArgs = {
   groupId?: InputMaybe<Scalars['ID']>;
@@ -225,9 +232,11 @@ export type QueryPhotosArgs = {
   ownerId?: InputMaybe<Scalars['ID']>;
 };
 
+
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryUsersArgs = {
   id?: InputMaybe<Scalars['ID']>;
@@ -270,13 +279,15 @@ export enum UserStatus {
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, name: string } | null };
 
 export type PhotoQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type PhotoQuery = { __typename?: 'Query', photo?: { __typename?: 'Photo', id: string, name: string, previewUrl: string, dateTimeOriginal: any, owner: { __typename?: 'User', id: string, name: string }, files: Array<{ __typename?: 'PhotoFile', fileType: string, downloadUrl: string, fileHash: string }> } | null };
+
+export type PhotoQuery = { __typename?: 'Query', photo?: { __typename?: 'Photo', id: string, name: string, previewUrl: string, dateTimeOriginal: any, owner: { __typename?: 'User', id: string, name: string }, files: Array<{ __typename?: 'PhotoFile', id: string, fileType: string, fileHash: string }> } | null };
 
 export type PhotosQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -286,7 +297,9 @@ export type PhotosQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']>;
 }>;
 
+
 export type PhotosQuery = { __typename?: 'Query', photos: { __typename?: 'PhotoPagination', pageInfo: { __typename?: 'PaginationInfo', page: number, paginationLength: number, hasNextPage: boolean, hasPreviousPage: boolean, count: number, totalCount: number }, nodes: Array<{ __typename?: 'Photo', id: string, name: string, dateTimeOriginal: any, thumbnailUrl: string, previewUrl: string, ownerId: string, groupId: string }> } };
+
 
 export const MeDocument = gql`
     query me {
@@ -295,7 +308,7 @@ export const MeDocument = gql`
     name
   }
 }
-    `
+    `;
 export const PhotoDocument = gql`
     query photo($id: ID!) {
   photo(id: $id) {
@@ -308,13 +321,13 @@ export const PhotoDocument = gql`
     previewUrl
     dateTimeOriginal
     files {
+      id
       fileType
-      downloadUrl
       fileHash
     }
   }
 }
-    `
+    `;
 export const PhotosDocument = gql`
     query photos($id: ID, $ownerId: ID, $groupId: ID, $limit: Int!, $offset: Int) {
   photos(
@@ -343,23 +356,24 @@ export const PhotosDocument = gql`
     }
   }
 }
-    `
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action()
 
-export function getSdk (client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    me (variables?: MeQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<MeQuery> {
-      return withWrapper(wrappedRequestHeaders => client.request<MeQuery>(MeDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'me', 'query')
+    me(variables?: MeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<MeQuery>(MeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'me', 'query');
     },
-    photo (variables: PhotoQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<PhotoQuery> {
-      return withWrapper(wrappedRequestHeaders => client.request<PhotoQuery>(PhotoDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'photo', 'query')
+    photo(variables: PhotoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PhotoQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PhotoQuery>(PhotoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'photo', 'query');
     },
-    photos (variables: PhotosQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<PhotosQuery> {
-      return withWrapper(wrappedRequestHeaders => client.request<PhotosQuery>(PhotosDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'photos', 'query')
-    },
-  }
+    photos(variables: PhotosQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PhotosQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PhotosQuery>(PhotosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'photos', 'query');
+    }
+  };
 }
 export type Sdk = ReturnType<typeof getSdk>;
