@@ -1,83 +1,86 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <v-container fluid>
+    <v-row justify="center" align="center">
+      <v-col cols="12">
+        <photo-list :value="photos" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-pagination v-model="page" :length="paginationLength" total-visible="6" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script>
-export default {
-  name: 'IndexPage'
-}
+<script lang="ts">
+
+import { defineComponent } from '@nuxtjs/composition-api'
+import { types } from 'node-sass'
+import { useMeStore } from '~/store/me-store'
+import PhotoList from '~/components/modules/PhotoList.vue'
+import { usePhotoStore } from '~/store/photo-store'
+import Number = types.Number
+
+export default defineComponent({
+  name: 'IndexPage',
+  components: { PhotoList },
+  middleware: ['authenticated'],
+  setup () {
+    const meStore = useMeStore()
+    const photoStore = usePhotoStore()
+    return {
+      meStore,
+      photoStore,
+    }
+  },
+
+  data () {
+    return {
+      limit: 50,
+      offset: 0,
+    }
+  },
+
+  computed: {
+    photos () {
+      return this.photoStore.photos
+    },
+    paginationLength () {
+      return this.photoStore.paginationInfo.paginationLength
+    },
+    page: {
+      get () {
+        return this.photoStore.paginationInfo.page
+      },
+      set (page: number) {
+        const offset = (page - 1) * this.limit
+        this.$router.push({ path: '/', query: { limit: String(this.limit), offset: String(offset) } })
+        this.photoStore.getPhotos({ limit: this.limit, offset })
+      },
+    },
+  },
+
+  created () {
+    const { limit, offset } = this.$route.query
+
+    if (typeof limit === 'string') {
+      const limitInt = parseInt(limit)
+      if (!isNaN(limitInt)) {
+        this.limit = limitInt
+      }
+    }
+
+    if (typeof offset === 'string') {
+      const offsetInt = parseInt(offset)
+      if (!isNaN(offsetInt)) {
+        this.offset = offsetInt
+      }
+    }
+  },
+
+  async mounted () {
+    await this.photoStore.getPhotos({ limit: this.limit, offset: this.offset })
+  },
+})
 </script>
