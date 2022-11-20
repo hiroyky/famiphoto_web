@@ -11,16 +11,7 @@ function newApiDriver () {
 }
 
 function newApiGateway () {
-  const clientId = process.env.CLIENT_ID
-  if (clientId === undefined) {
-    throw new Error('env: client id is invalid')
-  }
-  const clientSecret = process.env.CLIENT_SECRET
-  if (clientSecret === undefined) {
-    throw new Error('env: client secret is invalid')
-  }
-
-  return new ApiGateway(newApiDriver(), clientId, clientSecret)
+  return new ApiGateway(newApiDriver())
 }
 
 export function newAuthUseCase (): AuthUseCase {

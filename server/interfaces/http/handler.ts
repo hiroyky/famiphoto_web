@@ -3,6 +3,7 @@ import { checkSchema } from 'express-validator'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import { newAuthUseCase } from '../../di/registry'
 import { ApiError } from '../../drivers/api-driver'
+import { basicAuthValue } from '../../drivers/api-gateway'
 import expressValidation from './middlewares/express-validation'
 import { updateAccessToken } from './middlewares/session-middleware'
 
@@ -48,6 +49,8 @@ router.use('/api/*',
     onProxyReq: (proxyReq, req, res) => {
       if (req.session && req.session.access_token) {
         proxyReq.setHeader('Authorization', `Bearer ${req.session.access_token}`)
+      } else {
+        proxyReq.setHeader('Authorization', `${basicAuthValue()}`)
       }
     },
   }),
@@ -60,6 +63,8 @@ if (process.env.IS_DEBUG) {
     onProxyReq: (proxyReq, req, res) => {
       if (req.session && req.session.access_token) {
         proxyReq.setHeader('Authorization', `Bearer ${req.session.access_token}`)
+      } else {
+        proxyReq.setHeader('Authorization', `${basicAuthValue()}`)
       }
     },
   }))

@@ -31,7 +31,6 @@ export default {
   privateRuntimeConfig: {
     API_BASE_URL: process.env.API_BASE_URL,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
-    CLIENT_CREDENTIAL_REFRESH_TOKEN: process.env.CLIENT_CREDENTIAL_REFRESH_TOKEN,
     SESSION_SECRET: process.env.SESSION_SECRET,
   },
 

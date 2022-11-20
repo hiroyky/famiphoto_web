@@ -59,6 +59,7 @@ export type Edge = {
 
 export type Group = Node & {
   __typename?: 'Group';
+  groupId: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
   userPagination: UserPagination;
@@ -195,7 +196,9 @@ export type PhotoPagination = Pagination & {
 
 export type Query = {
   __typename?: 'Query';
+  existGroupId: Scalars['Boolean'];
   existUserId: Scalars['Boolean'];
+  group?: Maybe<Group>;
   me?: Maybe<User>;
   photo?: Maybe<Photo>;
   photoFile?: Maybe<PhotoFile>;
@@ -205,8 +208,16 @@ export type Query = {
   users: UserPagination;
 };
 
+export type QueryExistGroupIdArgs = {
+  id: Scalars['String'];
+};
+
 export type QueryExistUserIdArgs = {
   id: Scalars['String'];
+};
+
+export type QueryGroupArgs = {
+  id: Scalars['ID'];
 };
 
 export type QueryPhotoArgs = {
@@ -246,6 +257,7 @@ export type User = Node & {
   name: Scalars['String'];
   password?: Maybe<UserPassword>;
   status: UserStatus;
+  userId: Scalars['ID'];
 };
 
 export type UserEdge = Edge & {
@@ -272,11 +284,19 @@ export enum UserStatus {
   Withdrawal = 'Withdrawal'
 }
 
+export type CreateUserMutationVariables = Exact<{
+  userId: Scalars['String'];
+  name: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, userId: string, name: string } };
+
 export type ExistUserIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
-export type ExistUserIdQuery = { __typename?: 'Query', existUserId: boolean };
+export type ExistUserIdQuery = { __typename?: 'Query', existUserId: boolean, existGroupId: boolean };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -298,9 +318,19 @@ export type PhotosQueryVariables = Exact<{
 
 export type PhotosQuery = { __typename?: 'Query', photos: { __typename?: 'PhotoPagination', pageInfo: { __typename?: 'PaginationInfo', page: number, paginationLength: number, hasNextPage: boolean, hasPreviousPage: boolean, count: number, totalCount: number }, nodes: Array<{ __typename?: 'Photo', id: string, name: string, dateTimeOriginal: any, thumbnailUrl: string, previewUrl: string, ownerId: string, groupId: string }> } };
 
+export const CreateUserDocument = gql`
+    mutation createUser($userId: String!, $name: String!, $password: String!) {
+  createUser(input: {userId: $userId, name: $name, password: $password}) {
+    id
+    userId
+    name
+  }
+}
+    `
 export const ExistUserIdDocument = gql`
     query existUserId($id: String!) {
   existUserId(id: $id)
+  existGroupId(id: $id)
 }
     `
 export const MeDocument = gql`
@@ -366,6 +396,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk (client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    createUser (variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<CreateUserMutation> {
+      return withWrapper(wrappedRequestHeaders => client.request<CreateUserMutation>(CreateUserDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'createUser', 'mutation')
+    },
     existUserId (variables: ExistUserIdQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<ExistUserIdQuery> {
       return withWrapper(wrappedRequestHeaders => client.request<ExistUserIdQuery>(ExistUserIdDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'existUserId', 'query')
     },

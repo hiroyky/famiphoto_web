@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-form>
+    <v-form v-model="validate" @submit.prevent="onNextClick">
       <v-card-text>
         <p v-if="loginId">
           {{ loginId }}

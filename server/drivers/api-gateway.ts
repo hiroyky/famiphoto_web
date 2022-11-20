@@ -12,8 +12,6 @@ import {
 export class ApiGateway {
   constructor (
     private apiDriver: ApiDriver,
-    private clientId: string,
-    private clientSecret: string,
   ) { }
 
   public async login (req: LoginRequest): Promise<AuthorizationCodeResponse> {
@@ -21,7 +19,7 @@ export class ApiGateway {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: this.basicAuthValue(),
+        Authorization: basicAuthValue(),
       },
       body: JSON.stringify({
         user_id: req.userId,
@@ -59,7 +57,7 @@ export class ApiGateway {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: this.basicAuthValue(),
+        Authorization: basicAuthValue(),
       },
       body: form,
     })
@@ -71,9 +69,9 @@ export class ApiGateway {
       refreshToken: body.refresh_token,
     }
   }
+}
 
-  private basicAuthValue (): string {
-    const pass = Base64.encode(`${this.clientId}:${this.clientSecret}`)
-    return `Basic ${pass}`
-  }
+export function basicAuthValue (): string {
+  const pass = Base64.encode(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)
+  return `Basic ${pass}`
 }

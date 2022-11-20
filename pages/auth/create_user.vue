@@ -12,7 +12,14 @@
             </v-window-item>
 
             <v-window-item>
-              <user-name-form v-model="userName" :login-id="loginId" @commit="onUserNameCommit" @back="onBack" />
+              <user-name-form
+                v-model="userName"
+                :login-id="loginId"
+                :error-message="userNameErrorMessage"
+                @commit="onUserNameCommit"
+                @back="onBack"
+                @input="userNameErrorMessage=''"
+              />
             </v-window-item>
 
             <v-window-item>
@@ -25,7 +32,11 @@
                 @back="onBack"
                 @commit="onCommit"
                 @input="passwordErrorMessage=''"
-              />
+              >
+                <template #nextButton>
+                  アカウント作成
+                </template>
+              </login-password-form>
             </v-window-item>
           </v-window>
 
@@ -62,6 +73,7 @@ export default defineComponent({
       loginId: '',
       loginIdErrorMessage: '',
       userName: '',
+      userNameErrorMessage: '',
       password: '',
       passwordErrorMessage: '',
       loading: false,
@@ -86,9 +98,11 @@ export default defineComponent({
     onUserNameCommit () {
       this.step = 2
     },
-    onCommit () {
+    async onCommit () {
       try {
         this.loading = true
+        await this.authStore.createUser(this.loginId, this.userName, this.password)
+        await this.$router.push('/')
       } finally {
         this.loading = false
       }
