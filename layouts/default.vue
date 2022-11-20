@@ -14,10 +14,11 @@
       app
     >
       <v-btn icon outlined to="/">
-        <slot><v-icon>mdi-home</v-icon></slot>
+        <v-icon>mdi-home</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <account-menu />
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -32,8 +33,10 @@
 </template>
 
 <script>
+import AccountMenu from '~/components/parts/AccountMenu'
 export default {
   name: 'DefaultLayout',
+  components: { AccountMenu },
   data () {
     return {
       clipped: false,
