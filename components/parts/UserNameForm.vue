@@ -1,22 +1,17 @@
 <template>
   <v-card>
-    <v-form v-model="validate" @submit.prevent="onCommit">
+    <v-form>
       <v-card-text>
-        <p>{{ loginId }}</p>
-        <p v-if="userName">
-          {{ userName }}
+        <p v-if="loginId">
+          {{ loginId }}
         </p>
         <v-text-field
-          :value="value"
-          label="パスワード"
-          :type="isShowText ? 'text' : 'password'"
-          :append-icon="isShowText ? 'mdi-eye' : 'mdi-eye-off'"
+          label="名前"
           autofocus
+          :value="value"
           :error-messages="errorMessage"
           :rules="rules"
-          :loading="loading"
           @input="onInput"
-          @click:append="isShowText = !isShowText"
         />
       </v-card-text>
       <v-card-actions>
@@ -24,8 +19,8 @@
           戻る
         </v-btn>
         <v-spacer />
-        <v-btn :disabled="!validate" @click="onCommit">
-          ログイン
+        <v-btn :disabled="!validate" @click="onNextClick">
+          次へ
         </v-btn>
       </v-card-actions>
     </v-form>
@@ -41,27 +36,18 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    loginId: {
-      type: String,
-      default: '',
-    },
-    userName: {
-      type: String || null,
-      default: null,
-    },
     errorMessage: {
       type: String || null,
       default: null,
     },
-    loading: {
-      type: Boolean,
-      default: false,
+    loginId: {
+      type: String || null,
+      default: null,
     },
   },
   data () {
     return {
       validate: false,
-      isShowText: false,
     }
   },
   computed: {
@@ -74,7 +60,7 @@ export default defineComponent({
       this.validate = true
       this.$emit('input', val)
     },
-    onCommit () {
+    onNextClick () {
       if (!this.validate) {
         return
       }

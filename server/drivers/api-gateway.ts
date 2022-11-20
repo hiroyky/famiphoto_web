@@ -1,7 +1,13 @@
 import { Base64 } from 'js-base64'
 import FormData from 'form-data'
 import { ApiDriver } from './api-driver'
-import { PostOauthTokenRequest, PostOauthTokenResponse } from '~/types/api-types'
+import {
+  AuthorizationCodeResponse,
+  LoginRequest,
+  LoginResponse,
+  PostOauthTokenRequest,
+  PostOauthTokenResponse,
+} from '~/types/api-types'
 
 export class ApiGateway {
   constructor (
@@ -9,6 +15,26 @@ export class ApiGateway {
     private clientId: string,
     private clientSecret: string,
   ) { }
+
+  public async login (req: LoginRequest): Promise<AuthorizationCodeResponse> {
+    const res = await this.apiDriver.request('auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: this.basicAuthValue(),
+      },
+      body: JSON.stringify({
+        user_id: req.userId,
+        password: req.password,
+      }),
+    })
+    const body: any = await res.json()
+    return {
+      accessToken: body.access_token,
+      refreshToken: body.refresh_token,
+      expireIn: body.expires_in,
+    }
+  }
 
   public async postOauthToken (req: PostOauthTokenRequest): Promise<PostOauthTokenResponse> {
     const form = new URLSearchParams()
@@ -29,24 +55,20 @@ export class ApiGateway {
       form.append('state', req.state)
     }
 
-    try {
-      const res = await this.apiDriver.request('oauth/v2/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: this.basicAuthValue(),
-        },
-        body: form,
-      })
+    const res = await this.apiDriver.request('oauth/v2/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: this.basicAuthValue(),
+      },
+      body: form,
+    })
 
-      const body: any = await res.json()
-      return {
-        accessToken: body.access_token,
-        expireIn: body.expires_in,
-        refreshToken: body.refresh_token,
-      }
-    } catch (err) {
-      throw err
+    const body: any = await res.json()
+    return {
+      accessToken: body.access_token,
+      expireIn: body.expires_in,
+      refreshToken: body.refresh_token,
     }
   }
 

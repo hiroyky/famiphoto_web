@@ -3,14 +3,16 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>
-            FAMIPHOTO
-          </v-card-title>
-          <v-card-subtitle>ログイン</v-card-subtitle>
+          <v-card-title>FAMIPHOTO</v-card-title>
+          <v-card-subtitle>アカウント作成</v-card-subtitle>
 
           <v-window v-model="step">
             <v-window-item>
               <login-id-form v-model="loginId" :loading="loading" :error-message="loginIdErrorMessage" @commit="onLoginIdCommit" @input="loginIdErrorMessage=''" />
+            </v-window-item>
+
+            <v-window-item>
+              <user-name-form v-model="userName" :login-id="loginId" @commit="onUserNameCommit" @back="onBack" />
             </v-window-item>
 
             <v-window-item>
@@ -19,6 +21,7 @@
                 :loading="loading"
                 :login-id="loginId"
                 :error-message="passwordErrorMessage"
+                :user-name="userName"
                 @back="onBack"
                 @commit="onCommit"
                 @input="passwordErrorMessage=''"
@@ -27,8 +30,8 @@
           </v-window>
 
           <v-card-text class="text-center">
-            <nuxt-link to="./create_user">
-              アカウント新規作成
+            <nuxt-link to="./login">
+              既存アカウントでログイン
             </nuxt-link>
           </v-card-text>
         </v-card>
@@ -38,15 +41,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import LoginIdForm from '~/components/parts/LoginIdForm.vue'
 import LoginPasswordForm from '~/components/parts/LoginPasswordForm.vue'
 import { useAuthStore } from '~/store/auth-store'
-import { ApiError } from '~/repositories/api'
+import UserNameForm from '~/components/parts/UserNameForm.vue'
 
-export default Vue.extend({
-  name: 'LoginPage',
-  components: { LoginIdForm, LoginPasswordForm },
+export default defineComponent({
+  name: 'CreateUserPage',
+  components: { UserNameForm, LoginIdForm, LoginPasswordForm },
   layout: 'center',
   setup () {
     return {
@@ -54,23 +57,22 @@ export default Vue.extend({
     }
   },
   data () {
-    const to = this.$route.query.to
     return {
       step: 0,
       loginId: '',
       loginIdErrorMessage: '',
+      userName: '',
       password: '',
       passwordErrorMessage: '',
       loading: false,
-      to: typeof to === 'string' ? to : '/',
     }
   },
   methods: {
     async onLoginIdCommit () {
       try {
         this.loading = true
-        if (!await this.authStore.existUserId(this.loginId)) {
-          this.loginIdErrorMessage = 'そのユーザIDは存在しません。'
+        if (await this.authStore.existUserId(this.loginId)) {
+          this.loginIdErrorMessage = 'そのユーザIDは使われています。'
           return
         }
         this.step = 1
@@ -79,21 +81,14 @@ export default Vue.extend({
       }
     },
     onBack () {
-      this.step = 0
+      this.step--
     },
-    async onCommit () {
+    onUserNameCommit () {
+      this.step = 2
+    },
+    onCommit () {
       try {
         this.loading = true
-        await this.authStore.login(this.loginId, this.password)
-        await this.$router.push(this.to)
-      } catch (err) {
-        if (err instanceof ApiError) {
-          if (err.errorCode === 'UserUnauthorizedError') {
-            this.passwordErrorMessage = 'パスワードが違います。。'
-            return
-          }
-        }
-        this.passwordErrorMessage = '予期せぬエラーが起こりました。'
       } finally {
         this.loading = false
       }

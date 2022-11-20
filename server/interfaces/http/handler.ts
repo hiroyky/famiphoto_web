@@ -1,34 +1,39 @@
 import express from 'express'
 import { checkSchema } from 'express-validator'
 import { createProxyMiddleware } from 'http-proxy-middleware'
-import { newOauthClientUsecase } from '../../di/registry'
+import { newAuthUseCase } from '../../di/registry'
+import { ApiError } from '../../drivers/api-driver'
 import expressValidation from './middlewares/express-validation'
 import { updateAccessToken } from './middlewares/session-middleware'
 
 const router = express.Router()
 
-router.get(
-  '/auth/redirect',
+router.post(
+  '/auth/login',
   express.urlencoded({ extended: true }),
+  express.json(),
   checkSchema({
-    state: { in: ['query'] },
-    code: { in: ['query'] },
+    userId: { in: ['body'] },
+    password: { in: ['body'] },
   }),
   expressValidation,
   async (req: express.Request, res: express.Response) => {
-    const { code, state } = req.query
+    const { userId, password } = req.body
 
-    const usecase = newOauthClientUsecase()
-
-    const {
-      accessToken,
-      refreshToken,
-      expireAt,
-    } = await usecase.authorizationCode(code as string, new Date())
-    req.session.access_token = accessToken
-    req.session.access_token_expires = expireAt
-    req.session.refresh_token = refreshToken
-    res.redirect('/')
+    const useCase = newAuthUseCase()
+    try {
+      const {
+        accessToken,
+        refreshToken,
+        expireAt,
+      } = await useCase.login(userId, password, new Date())
+      req.session.access_token = accessToken
+      req.session.access_token_expires = expireAt
+      req.session.refresh_token = refreshToken
+      res.sendStatus(200)
+    } catch (err) {
+      errorResponse(res, err)
+    }
   },
 )
 
@@ -58,6 +63,17 @@ if (process.env.IS_DEBUG) {
       }
     },
   }))
+}
+
+function errorResponse (res: express.Response, err: any) {
+  if (err instanceof ApiError) {
+    res.status(err.httpStatus)
+    res.send(JSON.stringify(err))
+    return
+  }
+
+  res.status(500)
+  res.send(JSON.stringify({ error: 'Internal server error' }))
 }
 
 export default router

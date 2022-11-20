@@ -1,5 +1,5 @@
 import express from 'express'
-import { newOauthClientUsecase } from '../../../di/registry'
+import { newAuthUseCase } from '../../../di/registry'
 
 export async function updateAccessToken (req: express.Request, _: express.Response, next: express.NextFunction) {
   if (!req.session || !req.session.access_token || !req.session.access_token_expires || !req.session.refresh_token) {
@@ -7,7 +7,7 @@ export async function updateAccessToken (req: express.Request, _: express.Respon
   }
 
   const now = new Date()
-  const usecase = newOauthClientUsecase()
+  const usecase = newAuthUseCase()
   if (!usecase.isExpired(req.session.access_token_expires, now)) {
     return next()
   }
