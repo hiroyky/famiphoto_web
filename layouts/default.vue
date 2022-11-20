@@ -13,6 +13,9 @@
       fixed
       app
     >
+      <v-btn icon outlined to="/">
+        <slot><v-icon>mdi-home</v-icon></slot>
+      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
@@ -36,18 +39,6 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
