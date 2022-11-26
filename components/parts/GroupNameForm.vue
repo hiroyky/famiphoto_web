@@ -1,9 +1,12 @@
 <template>
   <v-card>
-    <v-form v-model="validate" @submit.prevent="onNextClick">
+    <v-form v-model="validate" @submit.prevent="onCommit">
       <v-card-text>
+        <p v-if="groupId">
+          {{ groupId }}
+        </p>
         <v-text-field
-          label="ユーザID"
+          label="グループ名"
           autofocus
           :value="value"
           :error-messages="errorMessage"
@@ -13,9 +16,12 @@
         />
       </v-card-text>
       <v-card-actions>
+        <v-btn @click="onBack">
+          戻る
+        </v-btn>
         <v-spacer />
-        <v-btn :disabled="!validate" @click="onNextClick">
-          次へ
+        <v-btn :disabled="!validate" @click="onCommit">
+          作成
         </v-btn>
       </v-card-actions>
     </v-form>
@@ -32,6 +38,10 @@ export default defineComponent({
       default: '',
     },
     errorMessage: {
+      type: String || null,
+      default: null,
+    },
+    groupId: {
       type: String || null,
       default: null,
     },
@@ -52,13 +62,17 @@ export default defineComponent({
   },
   methods: {
     onInput (val: string) {
+      this.validate = true
       this.$emit('input', val)
     },
-    onNextClick () {
+    onCommit () {
       if (!this.validate) {
         return
       }
       this.$emit('commit')
+    },
+    onBack () {
+      this.$emit('back')
     },
   },
 })

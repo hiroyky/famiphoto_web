@@ -3,7 +3,7 @@
     <v-form v-model="validate" @submit.prevent="onNextClick">
       <v-card-text>
         <v-text-field
-          label="ユーザID"
+          label="グループID"
           autofocus
           :value="value"
           :error-messages="errorMessage"

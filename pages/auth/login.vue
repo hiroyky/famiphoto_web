@@ -48,6 +48,7 @@ export default Vue.extend({
   name: 'LoginPage',
   components: { LoginIdForm, LoginPasswordForm },
   layout: 'center',
+  middleware: ['unauthenticated'],
   setup () {
     return {
       authStore: useAuthStore(),

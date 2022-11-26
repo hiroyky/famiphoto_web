@@ -7,7 +7,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async existUserId (userId: string): Promise<boolean> {
       const { client } = useGqlStore()
-      const { existUserId, existGroupId } = await client.existUserId({ id: userId })
+      const { existUserId, existGroupId } = await client.existUserOrGroupId({ id: userId })
       return existUserId || existGroupId
     },
 

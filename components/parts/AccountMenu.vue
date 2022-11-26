@@ -10,19 +10,25 @@
         <v-list-item>
           <v-list-item-icon><v-icon>mdi-account-circle</v-icon></v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>hiro</v-list-item-title>
-            <v-list-item-subtitle>yokoyama</v-list-item-subtitle>
+            <v-list-item-title>{{ userId }}</v-list-item-title>
+            <v-list-item-subtitle>{{ groupId }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
       <v-divider />
       <v-list-item-group>
+        <!--
         <v-list-item>
-          <v-list-item-icon><v-icon>mdi-manage-accounts</v-icon></v-list-item-icon>
+          <v-list-item-icon><v-icon>mdi-account-cog</v-icon></v-list-item-icon>
           <v-list-item-content>アカウント情報</v-list-item-content>
         </v-list-item>
-        <v-list-item>
-          <v-list-item-icon><v-icon>mdi-group</v-icon></v-list-item-icon>
+        -->
+        <v-list-item to="/settings">
+          <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
+          <v-list-item-content>設定</v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/groups/select_group">
+          <v-list-item-icon><v-icon>mdi-home-group</v-icon></v-list-item-icon>
           <v-list-item-content>グループ切替</v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -33,3 +39,24 @@
     </v-list>
   </v-menu>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'AccountMenu',
+  props: {
+    userId: {
+      type: String,
+      default: '',
+    },
+    groupId: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+
+  },
+})
+</script>

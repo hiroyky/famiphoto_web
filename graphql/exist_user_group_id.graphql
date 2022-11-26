@@ -1,0 +1,4 @@
+query existUserOrGroupId($id: String!) {
+  existUserId(id: $id)
+  existGroupId(id: $id)
+}

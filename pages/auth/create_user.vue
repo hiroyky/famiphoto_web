@@ -8,7 +8,13 @@
 
           <v-window v-model="step">
             <v-window-item>
-              <login-id-form v-model="loginId" :loading="loading" :error-message="loginIdErrorMessage" @commit="onLoginIdCommit" @input="loginIdErrorMessage=''" />
+              <login-id-form
+                v-model="loginId"
+                :loading="loading"
+                :error-message="loginIdErrorMessage"
+                @commit="onLoginIdCommit"
+                @input="loginIdErrorMessage=''"
+              />
             </v-window-item>
 
             <v-window-item>
@@ -62,6 +68,7 @@ export default defineComponent({
   name: 'CreateUserPage',
   components: { UserNameForm, LoginIdForm, LoginPasswordForm },
   layout: 'center',
+  middleware: ['unauthenticated'],
   setup () {
     return {
       authStore: useAuthStore(),
