@@ -24,7 +24,7 @@
           戻る
         </v-btn>
         <v-spacer />
-        <v-btn :disabled="!validate" @click="onCommit">
+        <v-btn :disabled="!validate" type="submit">
           <slot name="nextButton">
             ログイン
           </slot>

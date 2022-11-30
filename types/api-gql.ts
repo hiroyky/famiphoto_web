@@ -1,6 +1,6 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
-import gql from 'graphql-tag';
+import { GraphQLClient } from 'graphql-request'
+import * as Dom from 'graphql-request/dist/types.dom'
+import gql from 'graphql-tag'
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -65,7 +65,6 @@ export type Group = Node & {
   userPagination: UserPagination;
 };
 
-
 export type GroupUserPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -91,21 +90,17 @@ export type Mutation = {
   createUser: User;
 };
 
-
 export type MutationAlterGroupMembersArgs = {
   input: AlterGroupMembersInput;
 };
-
 
 export type MutationCreateGroupArgs = {
   input: CreateGroupInput;
 };
 
-
 export type MutationCreateOauthClientArgs = {
   input: CreateOauthClientInput;
 };
-
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
@@ -220,41 +215,33 @@ export type Query = {
   users: UserPagination;
 };
 
-
 export type QueryExistGroupIdArgs = {
   id: Scalars['String'];
 };
-
 
 export type QueryExistUserIdArgs = {
   id: Scalars['String'];
 };
 
-
 export type QueryGroupArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryIsBelongingGroupArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryPhotoArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryPhotoFileArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryPhotoFilesArgs = {
   photoId: Scalars['ID'];
 };
-
 
 export type QueryPhotosArgs = {
   groupId?: InputMaybe<Scalars['ID']>;
@@ -264,11 +251,9 @@ export type QueryPhotosArgs = {
   ownerId?: InputMaybe<Scalars['ID']>;
 };
 
-
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryUsersArgs = {
   id?: InputMaybe<Scalars['ID']>;
@@ -316,11 +301,9 @@ export type AlterGroupMembersMutationVariables = Exact<{
   removeUserIds?: InputMaybe<Array<Scalars['ID']> | Scalars['ID']>;
 }>;
 
-
 export type AlterGroupMembersMutation = { __typename?: 'Mutation', alterGroupMembers: { __typename?: 'Group', id: string } };
 
 export type BelongingGroupsQueryVariables = Exact<{ [key: string]: never; }>;
-
 
 export type BelongingGroupsQuery = { __typename?: 'Query', belongingGroups: Array<{ __typename?: 'Group', id: string, groupId: string, name: string }> };
 
@@ -328,7 +311,6 @@ export type CreateGroupMutationVariables = Exact<{
   groupId: Scalars['String'];
   name: Scalars['String'];
 }>;
-
 
 export type CreateGroupMutation = { __typename?: 'Mutation', createGroup: { __typename?: 'Group', id: string, groupId: string } };
 
@@ -338,39 +320,47 @@ export type CreateUserMutationVariables = Exact<{
   password: Scalars['String'];
 }>;
 
-
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, userId: string, name: string } };
 
 export type ExistUserOrGroupIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
-
 export type ExistUserOrGroupIdQuery = { __typename?: 'Query', existUserId: boolean, existGroupId: boolean };
+
+export type ExistUserIdQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type ExistUserIdQuery = { __typename?: 'Query', existUserId: boolean };
 
 export type GroupQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
 export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: string, groupId: string, name: string } };
+
+export type GroupMembersQueryVariables = Exact<{
+  id: Scalars['ID'];
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type GroupMembersQuery = { __typename?: 'Query', group: { __typename?: 'Group', userPagination: { __typename?: 'UserPagination', pageInfo: { __typename?: 'PaginationInfo', count: number, totalCount: number, hasNextPage: boolean, hasPreviousPage: boolean, paginationLength: number, page: number }, nodes: Array<{ __typename?: 'User', id: string, userId: string, name: string }> } } };
 
 export type IsBelongingGroupQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
 export type IsBelongingGroupQuery = { __typename?: 'Query', isBelongingGroup: boolean };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, userId: string, name: string } | null };
 
 export type PhotoQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
-
 
 export type PhotoQuery = { __typename?: 'Query', photo?: { __typename?: 'Photo', id: string, name: string, previewUrl: string, dateTimeOriginal: any, owner: { __typename?: 'User', id: string, name: string }, files: Array<{ __typename?: 'PhotoFile', id: string, fileType: string, fileHash: string }> } | null };
 
@@ -382,9 +372,7 @@ export type PhotosQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']>;
 }>;
 
-
 export type PhotosQuery = { __typename?: 'Query', photos: { __typename?: 'PhotoPagination', pageInfo: { __typename?: 'PaginationInfo', page: number, paginationLength: number, hasNextPage: boolean, hasPreviousPage: boolean, count: number, totalCount: number }, nodes: Array<{ __typename?: 'Photo', id: string, name: string, dateTimeOriginal: any, thumbnailUrl: string, previewUrl: string, ownerId: string, groupId: string }> } };
-
 
 export const AlterGroupMembersDocument = gql`
     mutation alterGroupMembers($groupId: ID!, $appendUserIds: [ID!], $removeUserIds: [ID!]) {
@@ -394,7 +382,7 @@ export const AlterGroupMembersDocument = gql`
     id
   }
 }
-    `;
+    `
 export const BelongingGroupsDocument = gql`
     query belongingGroups {
   belongingGroups {
@@ -403,7 +391,7 @@ export const BelongingGroupsDocument = gql`
     name
   }
 }
-    `;
+    `
 export const CreateGroupDocument = gql`
     mutation createGroup($groupId: String!, $name: String!) {
   createGroup(input: {groupId: $groupId, name: $name}) {
@@ -411,7 +399,7 @@ export const CreateGroupDocument = gql`
     groupId
   }
 }
-    `;
+    `
 export const CreateUserDocument = gql`
     mutation createUser($userId: String!, $name: String!, $password: String!) {
   createUser(input: {userId: $userId, name: $name, password: $password}) {
@@ -420,13 +408,18 @@ export const CreateUserDocument = gql`
     name
   }
 }
-    `;
+    `
 export const ExistUserOrGroupIdDocument = gql`
     query existUserOrGroupId($id: String!) {
   existUserId(id: $id)
   existGroupId(id: $id)
 }
-    `;
+    `
+export const ExistUserIdDocument = gql`
+    query existUserId($id: String!) {
+  existUserId(id: $id)
+}
+    `
 export const GroupDocument = gql`
     query group($id: ID!) {
   group(id: $id) {
@@ -435,12 +428,33 @@ export const GroupDocument = gql`
     name
   }
 }
-    `;
+    `
+export const GroupMembersDocument = gql`
+    query groupMembers($id: ID!, $limit: Int, $offset: Int) {
+  group(id: $id) {
+    userPagination(limit: $limit, offset: $offset) {
+      pageInfo {
+        count
+        totalCount
+        hasNextPage
+        hasPreviousPage
+        paginationLength
+        page
+      }
+      nodes {
+        id
+        userId
+        name
+      }
+    }
+  }
+}
+    `
 export const IsBelongingGroupDocument = gql`
     query isBelongingGroup($id: ID!) {
   isBelongingGroup(id: $id)
 }
-    `;
+    `
 export const MeDocument = gql`
     query me {
   me {
@@ -449,7 +463,7 @@ export const MeDocument = gql`
     name
   }
 }
-    `;
+    `
 export const PhotoDocument = gql`
     query photo($id: ID!) {
   photo(id: $id) {
@@ -468,7 +482,7 @@ export const PhotoDocument = gql`
     }
   }
 }
-    `;
+    `
 export const PhotosDocument = gql`
     query photos($id: ID, $ownerId: ID, $groupId: ID, $limit: Int!, $offset: Int) {
   photos(
@@ -497,45 +511,50 @@ export const PhotosDocument = gql`
     }
   }
 }
-    `;
+    `
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action()
 
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+export function getSdk (client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    alterGroupMembers(variables: AlterGroupMembersMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AlterGroupMembersMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AlterGroupMembersMutation>(AlterGroupMembersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'alterGroupMembers', 'mutation');
+    alterGroupMembers (variables: AlterGroupMembersMutationVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<AlterGroupMembersMutation> {
+      return withWrapper(wrappedRequestHeaders => client.request<AlterGroupMembersMutation>(AlterGroupMembersDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'alterGroupMembers', 'mutation')
     },
-    belongingGroups(variables?: BelongingGroupsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BelongingGroupsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<BelongingGroupsQuery>(BelongingGroupsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'belongingGroups', 'query');
+    belongingGroups (variables?: BelongingGroupsQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<BelongingGroupsQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<BelongingGroupsQuery>(BelongingGroupsDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'belongingGroups', 'query')
     },
-    createGroup(variables: CreateGroupMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGroupMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateGroupMutation>(CreateGroupDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGroup', 'mutation');
+    createGroup (variables: CreateGroupMutationVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<CreateGroupMutation> {
+      return withWrapper(wrappedRequestHeaders => client.request<CreateGroupMutation>(CreateGroupDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'createGroup', 'mutation')
     },
-    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
+    createUser (variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<CreateUserMutation> {
+      return withWrapper(wrappedRequestHeaders => client.request<CreateUserMutation>(CreateUserDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'createUser', 'mutation')
     },
-    existUserOrGroupId(variables: ExistUserOrGroupIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ExistUserOrGroupIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ExistUserOrGroupIdQuery>(ExistUserOrGroupIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'existUserOrGroupId', 'query');
+    existUserOrGroupId (variables: ExistUserOrGroupIdQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<ExistUserOrGroupIdQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<ExistUserOrGroupIdQuery>(ExistUserOrGroupIdDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'existUserOrGroupId', 'query')
     },
-    group(variables: GroupQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GroupQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GroupQuery>(GroupDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'group', 'query');
+    existUserId (variables: ExistUserIdQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<ExistUserIdQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<ExistUserIdQuery>(ExistUserIdDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'existUserId', 'query')
     },
-    isBelongingGroup(variables: IsBelongingGroupQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<IsBelongingGroupQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<IsBelongingGroupQuery>(IsBelongingGroupDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'isBelongingGroup', 'query');
+    group (variables: GroupQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<GroupQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<GroupQuery>(GroupDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'group', 'query')
     },
-    me(variables?: MeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MeQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<MeQuery>(MeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'me', 'query');
+    groupMembers (variables: GroupMembersQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<GroupMembersQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<GroupMembersQuery>(GroupMembersDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'groupMembers', 'query')
     },
-    photo(variables: PhotoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PhotoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PhotoQuery>(PhotoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'photo', 'query');
+    isBelongingGroup (variables: IsBelongingGroupQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<IsBelongingGroupQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<IsBelongingGroupQuery>(IsBelongingGroupDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'isBelongingGroup', 'query')
     },
-    photos(variables: PhotosQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PhotosQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PhotosQuery>(PhotosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'photos', 'query');
-    }
-  };
+    me (variables?: MeQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<MeQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<MeQuery>(MeDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'me', 'query')
+    },
+    photo (variables: PhotoQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<PhotoQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<PhotoQuery>(PhotoDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'photo', 'query')
+    },
+    photos (variables: PhotosQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<PhotosQuery> {
+      return withWrapper(wrappedRequestHeaders => client.request<PhotosQuery>(PhotosDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'photos', 'query')
+    },
+  }
 }
 export type Sdk = ReturnType<typeof getSdk>;

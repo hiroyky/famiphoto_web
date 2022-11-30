@@ -14,7 +14,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn :disabled="!validate" @click="onNextClick">
+        <v-btn :disabled="!validate" type="submit">
           次へ
         </v-btn>
       </v-card-actions>
