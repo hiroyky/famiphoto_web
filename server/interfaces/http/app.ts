@@ -1,11 +1,12 @@
 import express from 'express'
 import session from 'cookie-session'
+import { SessionCookieName } from '../../config'
 import handler from './handler'
 
 const app = express()
 app.use(session({
   secret: process.env.SESSION_SECRET!,
-  name: 'famiphoto_session',
+  name: SessionCookieName,
   path: '/',
   httpOnly: true,
   maxAge: 1000 * 3600 * 24 * 90,
