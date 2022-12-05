@@ -31,7 +31,7 @@
           <v-list-item-icon><v-icon>mdi-home-group</v-icon></v-list-item-icon>
           <v-list-item-content>グループ切替</v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item to="/auth/logout">
           <v-list-item-icon><v-icon>mdi-logout</v-icon></v-list-item-icon>
           <v-list-item-content>ログアウト</v-list-item-content>
         </v-list-item>

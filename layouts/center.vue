@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <alert-snackbar />
     <v-main>
       <v-container class="fill-height align-center">
         <v-row justify="center" align="center">
@@ -12,9 +13,12 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  name: 'center.vue',
-  layout: 'simple',
-}
+<script lang="ts">
+import { defineComponent } from 'vue'
+import AlertSnackbar from '~/components/modules/AlertSnackbar.vue'
+
+export default defineComponent({
+  name: 'CenterLayout',
+  components: { AlertSnackbar },
+})
 </script>

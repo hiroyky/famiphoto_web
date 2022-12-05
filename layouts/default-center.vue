@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+    <alert-snackbar />
     <common-navigation />
     <f-header :title="title" />
     <v-main>
@@ -19,9 +20,10 @@
 import FFooter from '~/components/parts/Footer'
 import CommonNavigation from '~/components/parts/CommonNavigation'
 import FHeader from '~/components/parts/Header'
+import AlertSnackbar from '~/components/modules/AlertSnackbar'
 export default {
   name: 'DefaultLayout',
-  components: { FHeader, CommonNavigation, FFooter },
+  components: { AlertSnackbar, FHeader, CommonNavigation, FFooter },
   computed: {
     title () {
       return this.$config.APP_NAME || 'FAMIPHOTO'

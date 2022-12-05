@@ -15,6 +15,10 @@ export const useAuthStore = defineStore('auth', {
       await api.Login({ userId, password })
     },
 
+    async logout () {
+      await api.Logout()
+    },
+
     async createUser (userId: string, name: string, password: string) {
       const { client } = useGqlStore()
       await client.createUser({ userId, password, name })

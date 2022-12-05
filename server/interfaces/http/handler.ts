@@ -4,6 +4,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware'
 import { newAuthUseCase } from '../../di/registry'
 import { ApiError } from '../../drivers/api-driver'
 import { basicAuthValue } from '../../drivers/api-gateway'
+import { SessionCookieName } from '../../config'
 import expressValidation from './middlewares/express-validation'
 import { updateAccessToken } from './middlewares/session-middleware'
 
@@ -35,6 +36,15 @@ router.post(
     } catch (err) {
       errorResponse(res, err)
     }
+  },
+)
+
+router.post(
+  '/auth/logout',
+  updateAccessToken,
+  (_: express.Request, res:express.Response) => {
+    res.clearCookie(SessionCookieName)
+    res.sendStatus(200)
   },
 )
 

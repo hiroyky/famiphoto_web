@@ -30,12 +30,12 @@ export const useMeStore = defineStore('me', {
 
   actions: {
     async getMe () {
-      const { client } = useGqlStore()
       try {
+        const { client } = useGqlStore()
         const res = await client.me()
         this.me = res.me
-      } catch (err) {
-        console.error(err)
+      } catch {
+        this.me = null
       }
     },
     setCurrentGroup (id: string, displayGroupId: string) {

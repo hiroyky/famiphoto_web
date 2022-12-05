@@ -11,6 +11,14 @@ export async function Login (req: {userId: string, password: string}) {
   }
 }
 
+export async function Logout () {
+  try {
+    await axios.post('/auth/logout', {})
+  } catch (err) {
+    throw ApiError.createInstanceIfApiError(err)
+  }
+}
+
 export class ApiError extends Error {
   public httpStatus: number
   public errorCode: string
