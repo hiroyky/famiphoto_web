@@ -1,0 +1,9 @@
+mutation createGroup ($groupId: String!, $name: String!) {
+  createGroup(input: {
+    groupId: $groupId,
+    name: $name
+  }) {
+    id
+    groupId
+  }
+}

@@ -1,0 +1,9 @@
+mutation alterGroupMembers($groupId: ID!, $appendUserIds: [ID!], $removeUserIds: [ID!]) {
+  alterGroupMembers(input: {
+    groupId: $groupId,
+    appendUserIds: $appendUserIds,
+    removeUserIds: $removeUserIds
+  }) {
+    id
+  }
+}

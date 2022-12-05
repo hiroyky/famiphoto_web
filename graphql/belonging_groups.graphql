@@ -1,0 +1,7 @@
+query belongingGroups {
+  belongingGroups {
+    id,
+    groupId,
+    name
+  }
+}

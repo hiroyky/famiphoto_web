@@ -5,37 +5,28 @@ export class ApiDriver {
   }
 
   public async request (path: string, init?: RequestInit) {
-    try {
-      const res = await fetch(this.baseUrl + '/' + path, init)
-      if (!res.ok) {
-        const body: any = await res.json()
-        throw new ApiError(res, body.error_code, body.error_message)
-      }
-      return res
-    } catch (err) {
-      throw err
+    const res = await fetch(this.baseUrl + '/' + path, init)
+    if (!res.ok) {
+      const body: any = await res.json()
+      throw new ApiError(res, body)
     }
+    return res
   }
 }
 
 export class ApiError extends Error {
-  constructor (private res: Response, errorCode: string, error_message: string) {
+  public httpStatus: number
+  public errorCode: string
+  public errorMessage: string
+
+  constructor (res: Response, body: any) {
     super()
-  }
-
-  get httpStatus (): number {
-    return this.res.status
-  }
-
-  get errorCode (): string {
-    return this.errorCode
-  }
-
-  get errorMessage (): string {
-    return this.errorMessage
+    this.httpStatus = res.status
+    this.errorCode = body.error_code
+    this.errorMessage = body.error_message
   }
 
   public toString (): string {
-    return `${this.errorCode}: ${this.errorMessage} ${super.toString()}`
+    return `${this.httpStatus} ${this.errorCode}: ${this.errorMessage} ${super.toString()}`
   }
 }

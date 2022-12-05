@@ -16,11 +16,10 @@
 <script lang="ts">
 
 import { defineComponent } from '@nuxtjs/composition-api'
-import { types } from 'node-sass'
 import { useMeStore } from '~/store/me-store'
 import PhotoList from '~/components/modules/PhotoList.vue'
 import { usePhotoStore } from '~/store/photo-store'
-import Number = types.Number
+import useAlertStore from '~/store/alert-store'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -32,6 +31,7 @@ export default defineComponent({
     return {
       meStore,
       photoStore,
+      alertStore: useAlertStore(),
     }
   },
 
@@ -80,7 +80,14 @@ export default defineComponent({
   },
 
   async mounted () {
-    await this.photoStore.getPhotos({ limit: this.limit, offset: this.offset })
+    try {
+      await this.photoStore.getPhotos({
+        limit: this.limit,
+        offset: this.offset,
+      })
+    } catch (err) {
+      this.alertStore.displayFatal('予期せぬ通信エラーが発生しました。')
+    }
   },
 })
 </script>

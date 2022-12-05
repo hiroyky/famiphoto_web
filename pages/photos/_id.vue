@@ -9,7 +9,9 @@
                 <v-card-actions>
                   <v-menu offset-y>
                     <template #activator="{on, attrs}">
-                      <v-btn color="primary" v-bind="attrs" v-on="on">ダウンロード</v-btn>
+                      <v-btn color="primary" v-bind="attrs" v-on="on">
+                        ダウンロード
+                      </v-btn>
                     </template>
                     <v-list>
                       <v-list-item v-for="item in downloadFiles" :key="item.id" :href="getDownloadUrl(item)">
@@ -27,8 +29,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col>
-            </v-col>
+            <v-col />
           </v-row>
         </v-container>
       </v-col>
@@ -44,6 +45,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { usePhotoStore } from '~/store/photo-store'
+import useAlertStore from '~/store/alert-store'
 
 export default defineComponent({
   name: 'PhotoPage',
@@ -52,10 +54,11 @@ export default defineComponent({
     const photoStore = usePhotoStore()
     return {
       photoStore,
+      alertStore: useAlertStore(),
     }
   },
   computed: {
-    downloadFiles() {
+    downloadFiles () {
       const photo = this.photoStore.photo
       if (photo === null || photo === undefined) {
         return []
@@ -66,14 +69,14 @@ export default defineComponent({
       return this.photoStore.photo !== null ? this.photoStore.photo?.previewUrl : ''
     },
   },
-  methods: {
-    getDownloadUrl(photoFile: { id: string }) {
-      return `/api/download/files/${photoFile.id}`
-    }
-  },
   created () {
     const id = this.$route.params.id
     this.photoStore.getPhoto(id)
+  },
+  methods: {
+    getDownloadUrl (photoFile: { id: string }) {
+      return `/api/download/files/${photoFile.id}`
+    },
   },
 })
 </script>

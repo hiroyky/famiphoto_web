@@ -1,0 +1,19 @@
+query groupMembers ($id: ID!, $limit: Int, $offset: Int) {
+  group(id: $id) {
+    userPagination(limit: $limit, offset: $offset) {
+      pageInfo{
+        count
+        totalCount
+        hasNextPage
+        hasPreviousPage
+        paginationLength
+        page
+      }
+      nodes{
+        id
+        userId
+        name
+      }
+    }
+  }
+}

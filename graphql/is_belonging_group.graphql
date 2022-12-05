@@ -1,0 +1,3 @@
+query isBelongingGroup($id: ID!) {
+  isBelongingGroup(id: $id)
+}

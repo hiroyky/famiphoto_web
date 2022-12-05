@@ -1,7 +1,6 @@
 import { ApiDriver } from '../drivers/api-driver'
 import { ApiGateway } from '../drivers/api-gateway'
-import { OauthClientRepository } from '../repositories/oauth-client-repository'
-import { OauthClientUsecase } from '../usecases/oauth-client-usecase'
+import { AuthUseCase } from '../usecases/auth_usecase'
 
 function newApiDriver () {
   const apiBaseUrl = process.env.API_BASE_URL
@@ -12,22 +11,9 @@ function newApiDriver () {
 }
 
 function newApiGateway () {
-  const clientId = process.env.CLIENT_ID
-  if (clientId === undefined) {
-    throw new Error('env: client id is invalid')
-  }
-  const clientSecret = process.env.CLIENT_SECRET
-  if (clientSecret === undefined) {
-    throw new Error('env: client secret is invalid')
-  }
-
-  return new ApiGateway(newApiDriver(), clientId, clientSecret)
+  return new ApiGateway(newApiDriver())
 }
 
-export function newOauthClientUsecase () {
-  const redirectUri = process.env.LOGIN_REDIRECT_URL
-  if (redirectUri === undefined) {
-    throw new Error('env: redirect uri is invalid')
-  }
-  return new OauthClientUsecase(new OauthClientRepository(newApiGateway()), redirectUri)
+export function newAuthUseCase (): AuthUseCase {
+  return new AuthUseCase(newApiGateway())
 }

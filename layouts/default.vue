@@ -1,58 +1,40 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    />
-
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-    </v-app-bar>
+    <alert-snackbar />
+    <common-navigation />
+    <f-header :title="title" :user-id="userId" :group-id="groupDisplayId" />
     <v-main>
       <Nuxt />
     </v-main>
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
-      <span>&copy; FAMIPHOTO {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <f-footer />
   </v-app>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+import FFooter from '~/components/parts/Footer.vue'
+import CommonNavigation from '~/components/parts/CommonNavigation.vue'
+import FHeader from '~/components/parts/Header.vue'
+import { useMeStore } from '~/store/me-store'
+import AlertSnackbar from '~/components/modules/AlertSnackbar.vue'
+export default defineComponent({
   name: 'DefaultLayout',
-  data () {
+  components: { AlertSnackbar, FHeader, CommonNavigation, FFooter },
+  setup () {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: this.$config.APP_NAME,
+      meStore: useMeStore(),
     }
   },
-}
+  computed: {
+    title (): string {
+      return this.$config.APP_NAME || 'FAMIPHOTO'
+    },
+    userId ():string {
+      return this.meStore.userId
+    },
+    groupDisplayId (): string {
+      return this.meStore.group.displayId
+    },
+  },
+})
 </script>
