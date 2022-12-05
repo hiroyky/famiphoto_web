@@ -57,6 +57,7 @@ import GroupAbstractionTable from '~/components/modules/GroupAbstractionTable.vu
 import GroupMemberTable from '~/components/modules/GroupMemberTable.vue'
 import { GroupMembers } from '~/types/api-gql-alias'
 import { PaginationInfo } from '~/types/api-gql'
+import useAlertStore from '~/store/alert-store'
 
 export default defineComponent({
   name: 'AlterGroupMemberPage',
@@ -67,6 +68,7 @@ export default defineComponent({
     return {
       meStore: useMeStore(),
       groupStore: useGroupStore(),
+      alertStore: useAlertStore(),
     }
   },
   data () {

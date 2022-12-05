@@ -39,19 +39,15 @@ export const usePhotoStore = defineStore('photo', {
     },
     async getPhotos (q?: PhotosGetQuery) {
       const { client } = useGqlStore()
-      try {
-        const res = await client.photos({
-          limit: q?.limit ? q.limit : 50,
-          offset: q?.offset ? q.offset : 0,
-        })
+      const res = await client.photos({
+        limit: q?.limit ? q.limit : 50,
+        offset: q?.offset ? q.offset : 0,
+      })
 
-        this.photos = res.photos.nodes
-          .map(item => item.thumbnailUrl === '' ? { ...item, thumbnailUrl: '/no_thumbnail.png' } : item)
-          .map(item => item.previewUrl === '' ? { ...item, previewUrl: '/no_thumbnail.ong' } : item)
-        this.paginationInfo = res.photos.pageInfo
-      } catch (err) {
-        console.error(err)
-      }
+      this.photos = res.photos.nodes
+        .map(item => item.thumbnailUrl === '' ? { ...item, thumbnailUrl: '/no_thumbnail.png' } : item)
+        .map(item => item.previewUrl === '' ? { ...item, previewUrl: '/no_thumbnail.ong' } : item)
+      this.paginationInfo = res.photos.pageInfo
     },
   },
 })

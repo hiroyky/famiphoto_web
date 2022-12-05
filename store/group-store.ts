@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { BelongingGroupsQuery, User } from '~/types/api-gql'
+import { BelongingGroupsQuery } from '~/types/api-gql'
 import { useGqlStore } from '~/store/gql-store'
 interface State {
   belongingGroups: BelongingGroupsQuery['belongingGroups']

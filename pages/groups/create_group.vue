@@ -40,6 +40,7 @@ import GroupNameForm from '~/components/parts/GroupNameForm.vue'
 import { useAuthStore } from '~/store/auth-store'
 import { useGroupStore } from '~/store/group-store'
 import { useMeStore } from '~/store/me-store'
+import useAlertStore from '~/store/alert-store'
 
 export default defineComponent({
   name: 'CreateGroupPage',
@@ -51,6 +52,7 @@ export default defineComponent({
       meStore: useMeStore(),
       authStore: useAuthStore(),
       groupStore: useGroupStore(),
+      alertStore: useAlertStore(),
     }
   },
   data () {

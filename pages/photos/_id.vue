@@ -45,6 +45,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { usePhotoStore } from '~/store/photo-store'
+import useAlertStore from '~/store/alert-store'
 
 export default defineComponent({
   name: 'PhotoPage',
@@ -53,6 +54,7 @@ export default defineComponent({
     const photoStore = usePhotoStore()
     return {
       photoStore,
+      alertStore: useAlertStore(),
     }
   },
   computed: {

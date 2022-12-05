@@ -63,6 +63,7 @@ import LoginIdForm from '~/components/parts/LoginIdForm.vue'
 import LoginPasswordForm from '~/components/parts/LoginPasswordForm.vue'
 import { useAuthStore } from '~/store/auth-store'
 import UserNameForm from '~/components/parts/UserNameForm.vue'
+import useAlertStore from '~/store/alert-store'
 
 export default defineComponent({
   name: 'CreateUserPage',
@@ -72,6 +73,7 @@ export default defineComponent({
   setup () {
     return {
       authStore: useAuthStore(),
+      alertStore: useAlertStore(),
     }
   },
   data () {
@@ -95,6 +97,8 @@ export default defineComponent({
           return
         }
         this.step = 1
+      } catch (err) {
+        this.alertStore.displayFatal('予期せぬ通信エラーが発生しました。')
       } finally {
         this.loading = false
       }

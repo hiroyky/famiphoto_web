@@ -30,6 +30,7 @@
 import { defineComponent } from 'vue'
 import { useGroupStore } from '~/store/group-store'
 import { useMeStore } from '~/store/me-store'
+import useAlertStore from '~/store/alert-store'
 
 export default defineComponent({
   name: 'SelectGroupPage',
@@ -39,6 +40,7 @@ export default defineComponent({
     return {
       meStore: useMeStore(),
       groupStore: useGroupStore(),
+      alertStore: useAlertStore(),
     }
   },
   data () {

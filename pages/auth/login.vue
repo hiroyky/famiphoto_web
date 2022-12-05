@@ -43,6 +43,7 @@ import LoginIdForm from '~/components/parts/LoginIdForm.vue'
 import LoginPasswordForm from '~/components/parts/LoginPasswordForm.vue'
 import { useAuthStore } from '~/store/auth-store'
 import { ApiError } from '~/repositories/api'
+import useAlertStore from '~/store/alert-store'
 
 export default Vue.extend({
   name: 'LoginPage',
@@ -52,6 +53,7 @@ export default Vue.extend({
   setup () {
     return {
       authStore: useAuthStore(),
+      alertStore: useAlertStore(),
     }
   },
   data () {
@@ -75,6 +77,8 @@ export default Vue.extend({
           return
         }
         this.step = 1
+      }　catch (err) {
+        this.alertStore.displayFatal('予期せぬ通信エラーが発生しました。')
       } finally {
         this.loading = false
       }

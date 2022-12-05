@@ -80,7 +80,14 @@ export default defineComponent({
   },
 
   async mounted () {
-    await this.photoStore.getPhotos({ limit: this.limit, offset: this.offset })
+    try {
+      await this.photoStore.getPhotos({
+        limit: this.limit,
+        offset: this.offset,
+      })
+    } catch (err) {
+      this.alertStore.displayFatal('予期せぬ通信エラーが発生しました。')
+    }
   },
 })
 </script>
