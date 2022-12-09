@@ -5,6 +5,9 @@
         <v-card>
           <v-card-subtitle>設定</v-card-subtitle>
           <v-list>
+            <v-list-item to="/settings/indexing">
+              写真の取り込み
+            </v-list-item>
             <v-list-item to="/groups/alter_member">
               グループメンバー設定
             </v-list-item>
