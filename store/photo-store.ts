@@ -49,5 +49,10 @@ export const usePhotoStore = defineStore('photo', {
         .map(item => item.previewUrl === '' ? { ...item, previewUrl: '/no_thumbnail.ong' } : item)
       this.paginationInfo = res.photos.pageInfo
     },
+    async beginIndexing(groupId: string, fast: boolean) {
+      const { client } = useGqlStore()
+      const { indexingPhotos }  = await client.indexingPhotos({groupId, fast})
+      return indexingPhotos
+    },
   },
 })

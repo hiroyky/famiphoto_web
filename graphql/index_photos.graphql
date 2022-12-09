@@ -1,0 +1,6 @@
+mutation indexingPhotos ($groupId: ID!, $fast: Boolean!) {
+  indexingPhotos(input: {
+    groupId: $groupId,
+    fast: $fast
+  })
+}
