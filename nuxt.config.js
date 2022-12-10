@@ -21,10 +21,7 @@ export default {
   },
 
   publicRuntimeConfig: {
-    BASE_URL: process.env.BASE_URL,
     CLIENT_ID: process.env.CLIENT_ID,
-    LOGIN_PAGE_URL: process.env.LOGIN_PAGE_URL,
-    LOGIN_REDIRECT_URL: process.env.LOGIN_REDIRECT_URL,
     APP_NAME: 'FAMIPHOTO',
     IS_DEBUG: process.env.IS_DEBUG,
   },
