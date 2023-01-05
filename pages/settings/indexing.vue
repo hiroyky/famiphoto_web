@@ -11,8 +11,10 @@
             {{ meStore.group.displayId }} - {{ meStore.userId }}
           </v-card-text>
           <v-card-actions>
-            <v-btn @click="onStatClick">写真取り込みを開始</v-btn>
-            <v-checkbox v-model="refreshMode" label="取り込み済み写真の情報も更新する" class="ml-4"></v-checkbox>
+            <v-btn @click="onStatClick">
+              写真取り込みを開始
+            </v-btn>
+            <v-checkbox v-model="refreshMode" label="取り込み済み写真の情報も更新する" class="ml-4" />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -36,17 +38,17 @@ export default defineComponent({
       alertStore: alertStore(),
     }
   },
-  data() {
+  data () {
     return {
       refreshMode: false,
     }
   },
   methods: {
-    async onStatClick() {
+    async onStatClick () {
       try {
         await this.photoStore.beginIndexing(this.meStore.group.id, !this.refreshMode)
         this.alertStore.displayMessage('写真の取り込みを開始しました。順次取り込みます。お待ちください。')
-      } catch(err) {
+      } catch (err) {
         console.error(err)
         this.alertStore.displayError('エラーが発生しました。')
       }

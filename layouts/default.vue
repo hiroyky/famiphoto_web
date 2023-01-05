@@ -1,8 +1,8 @@
 <template>
   <v-app dark>
     <alert-snackbar />
-    <common-navigation />
     <f-header :title="title" :user-id="userId" :group-id="groupDisplayId" />
+    <common-navigation />
     <v-main>
       <Nuxt />
     </v-main>
