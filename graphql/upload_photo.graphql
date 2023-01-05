@@ -1,0 +1,6 @@
+mutation uploadPhoto($groupId:ID!) {
+  uploadPhoto(input:{groupId: $groupId}) {
+    expireAt
+    uploadUrl
+  }
+}

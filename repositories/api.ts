@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import FormData from 'form-data'
 
 export async function Login (req: {userId: string, password: string}) {
   try {
@@ -14,6 +15,16 @@ export async function Login (req: {userId: string, password: string}) {
 export async function Logout () {
   try {
     await axios.post('/auth/logout', {})
+  } catch (err) {
+    throw ApiError.createInstanceIfApiError(err)
+  }
+}
+
+export async function uploadPhoto (url: string, file: File) {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+    await axios.post(url, formData)
   } catch (err) {
     throw ApiError.createInstanceIfApiError(err)
   }
