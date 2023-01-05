@@ -11,17 +11,16 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-card-actions>
-                  <file-uploader
-                    v-model="files"
-                    prepend-icon="mdi-camera"
-                    label="写真をアップロード ( JPEG | RAW )"
-                    :multiple="true"
-                    :accepts="['image/jpeg', '.raw', '.arw']"
-                    :loading="loading"
-                    @commit="onCommit"
-                  />
-                </v-card-actions>
+                <file-uploader
+                  v-model="files"
+                  prepend-icon="mdi-camera"
+                  label="写真をアップロード ( JPEG | RAW )"
+                  :multiple="true"
+                  :accepts="['image/jpeg', '.raw', '.arw']"
+                  :loading="loading"
+                  :progress="progress"
+                  @commit="onCommit"
+                />
               </v-col>
             </v-row>
           </v-container>
@@ -53,6 +52,7 @@ export default defineComponent({
     return {
       files: [] as Array<File>,
       loading: false,
+      progress: -1,
     }
   },
   computed: {
@@ -62,8 +62,11 @@ export default defineComponent({
   methods: {
     async onCommit () {
       try {
+        this.progress = 0
         this.loading = true
         await this.uploadPhotos(this.files)
+        this.files = []
+        this.alertStore.displayMessage('アップロードが完了しました。')
       } catch (err) {
         console.log(err)
       } finally {
@@ -76,7 +79,7 @@ export default defineComponent({
       await Promise.all(files.map(async (file) => {
         try {
           await this.photoStore.uploadPhoto(file, this.meStore.group.id)
-          this.alertStore.displayMessage(`${file.name}をアップロードしました`)
+          this.progress++
           successfulFiles.push(file)
         } catch (err) {
           console.error(err)

@@ -1,17 +1,25 @@
 <template>
-  <v-file-input
-    :label="label"
-    :multiple="multiple"
-    :value="files"
-    :accept="accepts.join(',')"
-    @change="onChange"
-  >
-    <template #append-outer>
-      <v-btn @click="onCommit">
-        アップロード
-      </v-btn>
-    </template>
-  </v-file-input>
+  <div>
+    <v-file-input
+      :label="label"
+      :multiple="multiple"
+      :value="value"
+      :accept="accepts.join(',')"
+      :disabled="loading"
+      @change="onChange"
+    >
+      <template #append-outer>
+        <v-btn :loading="loading" @click="onCommit">
+          アップロード
+        </v-btn>
+      </template>
+    </v-file-input>
+    <v-progress-linear :active="loading" :value="progressPercent" height="20">
+      <template>
+        <strong> {{ progress }} / {{ value.length }} </strong>
+      </template>
+    </v-progress-linear>
+  </div>
 </template>
 
 <script lang="ts">
@@ -40,6 +48,10 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: [],
     },
+    progress: {
+      type: Number,
+      default: -1,
+    },
     loading: {
       type: Boolean,
       default: false,
@@ -49,6 +61,11 @@ export default defineComponent({
     return {
       files: this.value,
     }
+  },
+  computed: {
+    progressPercent(): Number {
+      return this.files ? Math.round((this.progress/ this.files.length) * 100.0) : 0
+    },
   },
   methods: {
     onChange (inputFiles: File[]) {
