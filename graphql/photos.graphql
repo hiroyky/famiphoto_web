@@ -1,14 +1,14 @@
 query photos(
+  $groupId:ID!,
   $id:ID,
   $ownerId:ID,
-  $groupId:ID,
   $limit: Int!,
   $offset:Int
 ) {
   photos (
+    groupId:$groupId,
     id:$id,
     ownerId:$ownerId,
-    groupId:$groupId,
     limit:$limit,
     offset:$offset
   ){

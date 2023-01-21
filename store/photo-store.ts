@@ -3,6 +3,7 @@ import { useGqlStore } from '~/store/gql-store'
 import { PhotoList } from '~/types/api-gql-alias'
 import { PaginationInfo, PhotoQuery, UploadPhotoMutation } from '~/types/api-gql'
 import * as api from '~/repositories/api'
+import { useMeStore } from '~/store/me-store'
 
 interface State {
   photo: PhotoQuery['photo'] | null
@@ -39,8 +40,10 @@ export const usePhotoStore = defineStore('photo', {
       }
     },
     async getPhotos (q?: PhotosGetQuery) {
+      const meStore = useMeStore()
       const { client } = useGqlStore()
       const res = await client.photos({
+        groupId: meStore.group.id,
         limit: q?.limit ? q.limit : 50,
         offset: q?.offset ? q.offset : 0,
       })
