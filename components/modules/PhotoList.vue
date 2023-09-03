@@ -1,9 +1,19 @@
 <template>
-  <ul class="photo_list">
-    <li v-for="item in value" :key="item.id" class="photo_list__item">
-      <img :src="item.thumbnailUrl" :alt="item.name" class="photo_list__item__img" @click="onPhotoItemClick(item)">
-    </li>
-  </ul>
+  <v-card>
+    <v-card-title>2023年</v-card-title>
+    <ul class="photo_list">
+      <li v-for="item in value" :key="item.id" class="photo_list__item">
+        <img :src="item.thumbnailUrl" :alt="item.name" class="photo_list__item__img" @click="onPhotoItemClick(item)">
+      </li>
+    </ul>
+
+    <v-card-title>2022年</v-card-title>
+    <ul class="photo_list">
+      <li v-for="item in value" :key="item.id" class="photo_list__item">
+        <img :src="item.thumbnailUrl" :alt="item.name" class="photo_list__item__img" @click="onPhotoItemClick(item)">
+      </li>
+    </ul>
+  </v-card>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,10 @@
 <template>
   <v-container fluid>
+    <v-row>
+      <v-col cols="12" justify="center" align="center">
+        <photo-list-head-menu></photo-list-head-menu>
+      </v-col>
+    </v-row>
     <v-row justify="center" align="center">
       <v-col cols="12">
         <photo-list :value="photos" />
@@ -20,10 +25,11 @@ import { useMeStore } from '~/store/me-store'
 import PhotoList from '~/components/modules/PhotoList.vue'
 import { usePhotoStore } from '~/store/photo-store'
 import useAlertStore from '~/store/alert-store'
+import PhotoListHeadMenu from '~/components/modules/PhotoListHeadMenu.vue'
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { PhotoList },
+  components: { PhotoListHeadMenu, PhotoList },
   middleware: ['authenticated'],
   setup () {
     const meStore = useMeStore()
